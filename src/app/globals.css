@@ -5,13 +5,17 @@
 @layer base {
   :root {
     --background: #0B0916;
-    --primary: #CFECEE;
-    --secondary: #349C84;
-    --color3: #B0A672;
-    --color4: #9A8C98;
+    --primary: #DCDCDD;
+    --secondary: #A31621;
+    --color3: #FF8C42;
+    --color4: #3B3355;
   }
 
   body {
     @apply text-white;
   }
+}
+
+.flex-centralized {
+  @apply flex items-center justify-center;
 }

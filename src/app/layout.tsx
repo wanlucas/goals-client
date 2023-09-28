@@ -1,20 +1,19 @@
 import './globals.css';
 import { Metadata } from 'next';
-import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Goals',
+  title: 'home',
 };
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="bg-bg p-3">
-        <main>{children}</main>
-        <Footer />
+    <html lang="pt-br">
+      <body className="bg-bg p-3 h-screen">
+        <main className="h-full">{children}</main>
       </body>
     </html>
   );
