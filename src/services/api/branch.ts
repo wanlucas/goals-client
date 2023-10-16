@@ -5,6 +5,7 @@ export interface Branch {
   userId: string;
   name: string;
   xp: number;
+  icon: string;
 }
 
 type FindAllOutput = Branch[];

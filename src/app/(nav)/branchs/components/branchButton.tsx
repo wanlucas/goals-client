@@ -20,6 +20,7 @@ export default function BranchButton({ branch }: BranchButtonProps) {
         <CircularProgress
           percentage={xp.percentageToNextLevel(branch.xp)}
           level={xp.calculateLevel(branch.xp)}
+          icon={branch.icon}
         />
 
         <div className='mr-5'>{ branch.name }</div>

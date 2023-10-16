@@ -1,12 +1,12 @@
 import React from 'react';
 import { CircularProgress as MuiCircularProgress } from '@mui/material';
-import Image from 'next/image';
+import Icon from './Icon';
 
 export interface CircularProgressProps {
   percentage: number;
   size?: number;
   thickness?: number;
-  src?: string;
+  icon?: string;
   level?: string | number;
   color?: string;
 }
@@ -14,9 +14,9 @@ export interface CircularProgressProps {
 export default function CircularProgress({
   level,
   size = 60,
-  thickness = 12,
+  thickness = 10,
   color = 'white',
-  src,
+  icon,
   percentage,
 }: CircularProgressProps) {
   return (
@@ -37,10 +37,8 @@ export default function CircularProgress({
         className='absolute-centralized'
       />
 
-      <Image
-        src={src}
-        alt='icon'
-        loader={() => src}
+      <Icon
+        value={icon}
         width={size - thickness}
         height={size - thickness}
         className='rounded-full absolute-centralized brightness-50'
