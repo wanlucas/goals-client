@@ -1,5 +1,12 @@
-export default function Branchs() {
+import api from '@/services/api';
+import BranchButton from './components/branchButton';
+
+export default async function Branchs() {
+  const { data: branchs } = await api.branch.findAll();
+
   return (
-    <div>Branchs</div>
+    <ul className='flex-centralized-column'>
+      {branchs?.map((branch) => <BranchButton key={branch.id} branch={branch} />)}
+    </ul>
   );
 }

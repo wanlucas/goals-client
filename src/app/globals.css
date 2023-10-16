@@ -5,6 +5,9 @@
 @layer base {
   :root {
     --background: #0B0916;
+    --background-100: #121023;
+    --background-200: #1a172d;
+    --background-300: #26213d;
     --primary: #DCDCDD;
     --secondary: #A31621;
     --color3: #FF8C42;
@@ -18,4 +21,16 @@
 
 .flex-centralized {
   @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-centralized-column {
+  @apply flex flex-col items-center justify-center;
+}
+
+.absolute-centralized {
+  @apply absolute inset-0 m-auto;
 }

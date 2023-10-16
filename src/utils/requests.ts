@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
 
-const cookieStore = cookies();
 const { API_URL = 'http://localhost:3001' } = process.env;
 
 interface RequestOptions {
@@ -16,11 +15,28 @@ interface RequestOutput<Data> {
 
 export const get = async <Data = any>(
   url: string,
-  options: RequestOptions,
-): Promise<RequestOutput<Data>> => fetch(`${API_URL}/${url}`, {
-  ...options,
-  method: 'GET',
-}).then((res) => res.json());
+  options: RequestOptions | undefined = {},
+): Promise<RequestOutput<Data>> => {
+  const cookieStore = cookies();
+
+  return fetch(`${API_URL}/${url}`, {
+    ...options,
+    method: 'GET',
+    headers: {
+      authorization: cookieStore.get('token')?.value || '',
+      'Content-Type': 'application/json',
+    },
+  }).then(async (response) => {
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return {
+      data,
+      status: response.status,
+    };
+  });
+};
 
 interface PostOptions extends RequestOptions {
   body?: any;
@@ -29,19 +45,25 @@ interface PostOptions extends RequestOptions {
 export const post = async <Data = any>(
   url: string,
   options: PostOptions,
-): Promise<RequestOutput<Data>> => fetch(`${API_URL}/${url}`, {
-  ...options,
-  method: 'POST',
-  body: JSON.stringify(options.body),
-  headers: {
-    'Content-Type': 'application/json',
-    authorization: cookieStore.get('token')?.value || '',
-  },
-}).then(async (res) => {
-  const data = await res.json();
+): Promise<RequestOutput<Data>> => {
+  const cookieStore = cookies();
 
-  return {
-    data,
-    status: res.status,
-  };
-});
+  return fetch(`${API_URL}/${url}`, {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(options.body),
+    headers: {
+      authorization: cookieStore.get('token')?.value || '',
+      'Content-Type': 'application/json',
+    },
+  }).then(async (response) => {
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    return {
+      data,
+      status: response.status,
+    };
+  });
+};

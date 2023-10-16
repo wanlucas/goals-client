@@ -13,9 +13,9 @@ export default function Login() {
 
   const onSubmit = async (formData: any) => {
     try {
-      const { status } = await submitLogin(formData);
+      const { success } = await submitLogin(formData);
 
-      if (status !== 200) throw new Error('Login inválido');
+      if (!success) throw new Error('Login inválido');
 
       router.push('/');
     } catch (error) {

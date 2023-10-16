@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         bg: {
           DEFAULT: 'var(--background)',
+          100: 'var(--background-100)',
+          200: 'var(--background-200)',
+          300: 'var(--background-300)',
         },
         primary: {
           DEFAULT: 'var(--primary)',

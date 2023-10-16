@@ -4,8 +4,9 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith('/_') || pathname.startsWith('/login')) return;
+  if (pathname.startsWith('/_') || pathname.startsWith('/login')) return NextResponse.next();
 
-  console.log(request.cookies, 'coooookies');
-  // return NextResponse.redirect(new URL('/home', request.url));
+  if (!request.cookies.get('token')) return NextResponse.redirect(new URL('/login', request.url));
+
+  return NextResponse.next();
 }
