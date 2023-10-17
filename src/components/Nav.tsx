@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-export default function Footer() {
+export default function Nav() {
   return (
-    <footer className='fixed bottom-0 left-0 right-0 mr-auto'>
+    <div className='fixed bottom-0 left-0 right-0 mr-auto bg-bg-100 border-t-white/5 border-t-[1px]'>
       <nav className='flex justify-between items-center px-5 py-2'>
         <Link href="/">
           <button type="button">Home</button>
@@ -16,6 +16,6 @@ export default function Footer() {
           <button type="button">Statistics</button>
         </Link>
       </nav>
-    </footer>
+    </div>
   );
 }

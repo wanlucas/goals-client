@@ -13,7 +13,7 @@ export interface CircularProgressProps {
 
 export default function CircularProgress({
   level,
-  size = 60,
+  size = 70,
   thickness = 10,
   color = 'white',
   icon,

@@ -6,7 +6,7 @@ export default async function Branchs() {
 
   return (
     <ul className='flex-centralized-column'>
-      {branchs?.map((branch) => <BranchButton key={branch.id} branch={branch} />)}
+      {branchs?.reduce((arr, cur) => [...arr, cur, cur, cur, cur], []).map((branch) => <BranchButton key={branch.id} branch={branch} />)}
     </ul>
   );
 }

@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <div>
-      <main>{children}</main>
+      <div className='mb-[55px]'>{children}</div>
       <Nav />
     </div>
   );
