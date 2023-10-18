@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import UiIcon from './UiIcon';
 
 export interface OnChangeProps {
   name: string;
@@ -15,7 +16,6 @@ interface TextFieldProps {
 
 export default function TextField({
   onChange,
-  label,
   name,
   placeholder,
   type = 'text',
@@ -25,19 +25,17 @@ export default function TextField({
   };
 
   return (
-    <div className="relative h-9 mb-4">
+    <div className="relative h-9">
       <input
         type={type}
         name={name}
         placeholder={placeholder}
         onChange={handleChange}
-        className='h-full text-white w-full rounded-t outline-none z-10 border-b border-white bg-transparent'
+        autoComplete='off'
+        className='h-full text-white w-full outline-none z-10 bg-bg rounded-md p-4 hover:bg-bg-100'
       />
-      <label
-        className='absolute left-0 transition'
-      >
-        {label}
-      </label>
+
+      <UiIcon id="edit" className='absolute-right' size={18} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import './globals.css';
+import './animations.css';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,8 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className="bg-bg p-3 h-screen">
-        <main className="h-full">{children}</main>
+      <body className="bg-bg h-screen overflow-hidden">
+        <main className="h-full flex flex-col justify-between">{children}</main>
       </body>
     </html>
   );

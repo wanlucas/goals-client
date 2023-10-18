@@ -15,17 +15,15 @@ export default function CircularProgress({
   level,
   size = 70,
   thickness = 10,
-  color = 'white',
   icon,
   percentage,
 }: CircularProgressProps) {
   return (
     <div
-      className='relative'
+      className='relative text-primary'
       style={{
         width: size,
         height: size,
-        color,
       }}
     >
       <MuiCircularProgress
@@ -38,9 +36,8 @@ export default function CircularProgress({
       />
 
       <Icon
-        value={icon}
-        width={size - thickness}
-        height={size - thickness}
+        id={icon}
+        size={size - thickness}
         className='rounded-full absolute-centralized brightness-50'
       />
 

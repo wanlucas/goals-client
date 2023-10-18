@@ -1,12 +1,17 @@
 'use client';
 
+import { z } from 'zod';
 import Form from '@/components/Form';
 import TextField, { OnChangeProps } from '@/components/TextField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import loginSchema from '@/schemas/login';
 import { useRouter } from 'next/navigation';
-import { submitLogin } from './actions/submitLogin';
+import submitLogin from './actions/submitLogin';
+
+const LoginSchema = z.object({
+  name: z.string().min(3).max(30),
+  password: z.string().min(8).max(30),
+});
 
 export default function Login() {
   const router = useRouter();
@@ -24,7 +29,7 @@ export default function Login() {
   };
 
   const { handleSubmit, setValue } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(LoginSchema),
   });
 
   const handleChange = ({ name, value }: OnChangeProps) => setValue(name, value);

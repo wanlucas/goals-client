@@ -1,12 +1,10 @@
-import config from '@/constants/config';
 import icons from '@/utils/icons';
 import Image from 'next/image';
 import React from 'react';
 
 interface IconProps {
-  value?: string;
-  width?: number;
-  height?: number;
+  id?: string;
+  size?: number;
   className?: string;
   alt?: string;
 }
@@ -14,24 +12,21 @@ interface IconProps {
 const defaultIcon = icons[0];
 
 export default function Icon({
-  value, className, alt = 'icon', height = 10, width = 10,
+  id, className, alt = 'icon', size = 40,
 }: IconProps) {
   const icon = React.useMemo(() => {
-    if (!value) return defaultIcon;
-    if (!value.startsWith(config.iconPrefix)) return { data: value, alt };
-
-    const id = Number(value.replace(config.iconPrefix, ''));
+    if (!id) return defaultIcon;
 
     return icons[id] || defaultIcon;
-  }, [value, alt]);
+  }, [id, alt]);
 
   return (
     <Image
       src={icon.value}
       alt={icon.alt}
       loader={() => icon.value}
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       className={className}
     />
   );

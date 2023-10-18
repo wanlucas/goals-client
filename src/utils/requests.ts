@@ -8,15 +8,19 @@ interface RequestOptions {
   headers?: any;
 }
 
-interface RequestOutput<Data> {
+interface GetOutput<Data> {
   data: Data;
+  status: number;
+}
+
+interface PostOutput {
   status: number;
 }
 
 export const get = async <Data = any>(
   url: string,
   options: RequestOptions | undefined = {},
-): Promise<RequestOutput<Data>> => {
+): Promise<GetOutput<Data>> => {
   const cookieStore = cookies();
 
   return fetch(`${API_URL}/${url}`, {
@@ -42,10 +46,10 @@ interface PostOptions extends RequestOptions {
   body?: any;
 }
 
-export const post = async <Data = any>(
+export const post = async (
   url: string,
   options: PostOptions,
-): Promise<RequestOutput<Data>> => {
+): Promise<PostOutput> => {
   const cookieStore = cookies();
 
   return fetch(`${API_URL}/${url}`, {
@@ -57,12 +61,12 @@ export const post = async <Data = any>(
       'Content-Type': 'application/json',
     },
   }).then(async (response) => {
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message);
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message);
+    }
 
     return {
-      data,
       status: response.status,
     };
   });

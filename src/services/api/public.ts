@@ -1,16 +1,16 @@
 import { post } from '@/utils/requests';
 
-interface LoginPayload {
-  username: string;
-  password: string;
-}
-
 interface LoginOutput {
   token: string;
   id: string;
 }
 
-const login = (payload: LoginPayload) => post<LoginOutput>('public/sign-in', {
+interface LoginInput {
+  username: string;
+  password: string;
+}
+
+const login = (payload: LoginInput) => post<LoginOutput>('public/sign-in', {
   body: payload,
   cache: 'no-cache',
 });

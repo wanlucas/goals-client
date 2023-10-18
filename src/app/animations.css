@@ -1,0 +1,13 @@
+@keyframes fade-to-top {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fade-to-top {
+  animation: fade-to-top 0.3s linear;
+}

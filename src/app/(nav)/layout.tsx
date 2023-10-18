@@ -1,3 +1,4 @@
+import React from 'react';
 import Nav from '@/components/Nav';
 
 export default function RootLayout({
@@ -6,9 +7,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
-      <div className='mb-[55px]'>{children}</div>
+    <React.Fragment>
+      <div className='flex-grow'>{children}</div>
       <Nav />
-    </div>
+    </React.Fragment>
   );
 }
