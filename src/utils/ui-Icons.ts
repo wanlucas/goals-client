@@ -4,4 +4,7 @@ export default {
   arrowLeft: { url: '/ui/arrow-left.svg', alt: 'Seta para a esquerda' },
   home: { url: '/ui/home.svg', alt: 'Casa' },
   edit: { url: '/ui/edit.svg', alt: 'Lápis' },
+  options: { url: '/ui/options.svg', alt: 'Opções' },
+  close: { url: '/ui/close.svg', alt: 'Fechar' },
+  delete: { url: '/ui/delete.svg', alt: 'Deletar' },
 };

@@ -1,4 +1,4 @@
-import { get, post } from '@/utils/requests';
+import requests from '@/utils/requests';
 import { revalidatePath } from 'next/cache';
 
 export interface Branch {
@@ -9,16 +9,22 @@ export interface Branch {
   icon: string;
 }
 
-const findAll = () => get<Branch[]>('branch');
+const findAll = () => requests.get<Branch[]>('branch');
 
 export type CreateBranch = Omit<Branch, 'xp' | 'id'>;
 
 const create = (payload: CreateBranch) => {
   revalidatePath('/branchs');
-  return post('branch', { body: payload });
+  return requests.post('branch', { body: payload });
+};
+
+const remove = (id: string) => {
+  revalidatePath('/branchs');
+  return requests.remove(`branch/${id}`);
 };
 
 export default {
   findAll,
   create,
+  remove,
 };

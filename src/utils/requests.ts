@@ -17,7 +17,7 @@ interface PostOutput {
   status: number;
 }
 
-export const get = async <Data = any>(
+const get = async <Data = any>(
   url: string,
   options: RequestOptions | undefined = {},
 ): Promise<GetOutput<Data>> => {
@@ -46,10 +46,7 @@ interface PostOptions extends RequestOptions {
   body?: any;
 }
 
-export const post = async (
-  url: string,
-  options: PostOptions,
-): Promise<PostOutput> => {
+const post = async (url: string, options: PostOptions): Promise<PostOutput> => {
   const cookieStore = cookies();
 
   return fetch(`${API_URL}/${url}`, {
@@ -70,4 +67,30 @@ export const post = async (
       status: response.status,
     };
   });
+};
+
+const remove = async (url: string): Promise<PostOutput> => {
+  const cookieStore = cookies();
+
+  return fetch(`${API_URL}/${url}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: cookieStore.get('token')?.value || '',
+    },
+  }).then(async (response) => {
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message);
+    }
+
+    return {
+      status: response.status,
+    };
+  });
+};
+
+export default {
+  get,
+  post,
+  remove,
 };

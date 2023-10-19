@@ -1,4 +1,4 @@
-import { post } from '@/utils/requests';
+import requests from '@/utils/requests';
 
 interface LoginOutput {
   token: string;
@@ -10,7 +10,7 @@ interface LoginInput {
   password: string;
 }
 
-const login = (payload: LoginInput) => post<LoginOutput>('public/sign-in', {
+const login = (payload: LoginInput) => requests.post<LoginOutput>('public/sign-in', {
   body: payload,
   cache: 'no-cache',
 });
