@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
 import UiIcon from './UiIcon';
 
-export interface OnChangeProps {
-  name: string;
+export interface OnChangeProps<Name = string> {
+  name: Name;
   value: string
 }
 
@@ -11,12 +11,14 @@ interface TextFieldProps {
   type?: 'text' | 'number' | 'password';
   name: string;
   placeholder?: string;
+  value?: string;
   onChange: (event: OnChangeProps) => void;
 }
 
 export default function TextField({
   onChange,
   name,
+  value,
   placeholder,
   type = 'text',
 }: TextFieldProps) {
@@ -29,6 +31,7 @@ export default function TextField({
       <input
         type={type}
         name={name}
+        value={value}
         placeholder={placeholder}
         onChange={handleChange}
         autoComplete='off'

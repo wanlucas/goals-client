@@ -2,6 +2,7 @@ import uiIcons from '@/utils/ui-Icons';
 import React from 'react';
 import text from '@/utils/text';
 import UiIcon from './UiIcon';
+import BottomBar from './BottomBar';
 
 interface ActionsBarProps {
   icon?: keyof typeof uiIcons;
@@ -39,33 +40,21 @@ export default function ActionsBar({
         <UiIcon id={icon} size={size} />
       </button>
 
-      {isOpen && (
-        <div className='fixed inset-0 w-full h-full m-auto z-50 bg-slate-600/40'>
-          <div className='absolute w-full inset-x-0 bottom-0 fade-to-top'>
-            <div className='rounded-t-3xl flex justify-end px-5 py-2'>
-              <button onClick={handleClose} className='hover:scale-105'>
-                <UiIcon id='close' size={20} bg='primary' />
-              </button>
-            </div>
-
-            <div className='bg-bg rounded-t-3xl overflow-hidden'>
-              {actions.map((action) => (
-                <button
-                  key={action.title}
-                  onClick={() => handleAction(action.onClick)}
-                  className={text.join(
-                    'w-full py-4 flex items-center justify-between px-5 hover:bg-bg-100 active:scale-95',
-                    action.className,
-                  )}
-                >
-                  <p>{action.title}</p>
-                  <UiIcon id={action.icon} />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <BottomBar isOpen={isOpen} onClose={handleClose}>
+        {actions.map((action) => (
+          <button
+            key={action.title}
+            onClick={() => handleAction(action.onClick)}
+            className={text.join(
+              'w-full py-4 flex items-center justify-between px-5 hover:bg-bg-100 active:scale-95',
+              action.className,
+            )}
+          >
+            <p>{action.title}</p>
+            <UiIcon id={action.icon} />
+          </button>
+        ))}
+      </BottomBar>
     </React.Fragment>
   );
 }

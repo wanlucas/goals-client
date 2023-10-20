@@ -1,18 +1,23 @@
 'use client';
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import ActionsBar from '@/components/ActionsBar';
+import xp from '@/utils/xp';
 import CircularProgress from '@/components/CircularProgress';
 import { Branch } from '@/services/api/branch';
-import text from '@/utils/text';
-import xp from '@/utils/xp';
-import Link from 'next/link';
 import removeBranch from '../actions/remove-branch';
+import text from '@/utils/text';
 
 interface BranchButtonProps {
   branch: Branch;
 }
 
 export default function BranchBtn({ branch }: BranchButtonProps) {
+  const router = useRouter();
+
+  const handleEdit = (id: string) => router.push(`/branchs/update/${id}`);
+
   const handleDelete = async (id: string) => {
     const { success } = await removeBranch(id);
     if (!success) throw new Error('Não foi possível remover a branch');
@@ -42,7 +47,7 @@ export default function BranchBtn({ branch }: BranchButtonProps) {
           {
             title: 'Editar',
             icon: 'edit',
-            onClick: () => {},
+            onClick: () => handleEdit(branch.id),
           },
           {
             title: 'Excluir',

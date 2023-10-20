@@ -9,11 +9,15 @@ export interface Branch {
   icon: string;
 }
 
+export type CreateBranchPayload = Omit<Branch, 'xp' | 'id'>;
+
+export type UpdateBranchPayload = Partial<Branch>;
+
 const findAll = () => requests.get<Branch[]>('branch');
 
-export type CreateBranch = Omit<Branch, 'xp' | 'id'>;
+const findById = (id: string) => requests.get<Branch>(`branch/${id}`);
 
-const create = (payload: CreateBranch) => {
+const create = (payload: CreateBranchPayload) => {
   revalidatePath('/branchs');
   return requests.post('branch', { body: payload });
 };
@@ -23,8 +27,15 @@ const remove = (id: string) => {
   return requests.remove(`branch/${id}`);
 };
 
+const update = (id: string, payload: UpdateBranchPayload) => {
+  revalidatePath('/branchs');
+  return requests.put(`branch/${id}`, { body: payload });
+};
+
 export default {
   findAll,
+  findById,
   create,
   remove,
+  update,
 };

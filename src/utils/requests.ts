@@ -8,89 +8,80 @@ interface RequestOptions {
   headers?: any;
 }
 
+interface Options extends RequestOptions {
+  body?: any;
+}
+
 interface GetOutput<Data> {
   data: Data;
   status: number;
 }
 
-interface PostOutput {
+interface PostOutput<Data = null> {
+  status: number;
+  data: Data;
+}
+
+interface DeleteOutput {
   status: number;
 }
 
-const get = async <Data = any>(
+const request = async (
+  method: string,
   url: string,
-  options: RequestOptions | undefined = {},
-): Promise<GetOutput<Data>> => {
+  options: Options = {},
+) => {
   const cookieStore = cookies();
+  const body = options.body ? JSON.stringify(options.body) : undefined;
 
   return fetch(`${API_URL}/${url}`, {
     ...options,
-    method: 'GET',
+    method,
+    body,
     headers: {
       authorization: cookieStore.get('token')?.value || '',
       'Content-Type': 'application/json',
     },
-  }).then(async (response) => {
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(data.message);
-
-    return {
-      data,
-      status: response.status,
-    };
-  });
+  })
+    .then(async (response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response;
+    })
+    .then(async (response) => {
+      try {
+        return {
+          data: await response.json(),
+          status: response.status,
+        };
+      } catch {
+        return {
+          status: response.status,
+          data: null,
+        };
+      }
+    });
 };
 
-interface PostOptions extends RequestOptions {
-  body?: any;
-}
+const get = async <Data>(
+  url: string,
+  options: RequestOptions = {},
+): Promise<GetOutput<Data>> => request('GET', url, options);
 
-const post = async (url: string, options: PostOptions): Promise<PostOutput> => {
-  const cookieStore = cookies();
+const post = async <Data>(
+  url: string,
+  options: Options,
+): Promise<PostOutput<Data>> => request('POST', url, { ...options });
 
-  return fetch(`${API_URL}/${url}`, {
-    ...options,
-    method: 'POST',
-    body: JSON.stringify(options.body),
-    headers: {
-      authorization: cookieStore.get('token')?.value || '',
-      'Content-Type': 'application/json',
-    },
-  }).then(async (response) => {
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message);
-    }
+const put = async <Data>(
+  url: string,
+  options: Options,
+): Promise<PostOutput<Data>> => request('PUT', url, { ...options });
 
-    return {
-      status: response.status,
-    };
-  });
-};
-
-const remove = async (url: string): Promise<PostOutput> => {
-  const cookieStore = cookies();
-
-  return fetch(`${API_URL}/${url}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: cookieStore.get('token')?.value || '',
-    },
-  }).then(async (response) => {
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message);
-    }
-
-    return {
-      status: response.status,
-    };
-  });
-};
+const remove = async (url: string): Promise<DeleteOutput> => request('DELETE', url);
 
 export default {
   get,
   post,
+  put,
   remove,
 };

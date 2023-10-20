@@ -3,6 +3,7 @@ import React from 'react';
 import text from '@/utils/text';
 import Icon from './Icon';
 import UiIcon from './UiIcon';
+import BottomBar from './BottomBar';
 
 interface IconPaletteProps {
   onChange: (icon: string) => void;
@@ -19,11 +20,10 @@ export function IconPalette({ onChange, onClose, isOpen }: IconPaletteProps) {
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <ul className='flex flex-wrap h-2/5 rounded-3xl bg-bg p-4 fixed bottom-0 left-0 right-0 z-50 overflow-auto fade-to-top'>
-      {allIcons.map((icon: string) => (
+    <BottomBar isOpen={isOpen} onClose={onClose}>
+      <ul className='flex flex-wrap px-4 py-8'>
+        {allIcons.map((icon: string) => (
           <li
             key={icon}
             onClick={() => handleSelect(icon)}
@@ -31,19 +31,25 @@ export function IconPalette({ onChange, onClose, isOpen }: IconPaletteProps) {
           >
             <Icon id={icon} size={iconSize} />
           </li>
-      ))}
-    </ul>
+        ))}
+      </ul>
+    </BottomBar>
   );
 }
 
 interface IconPickerProps {
   onChange: (icon: string) => void;
   className?: string;
+  value?: string;
 }
 
-export default function IconPicker({ onChange, className = '' }: IconPickerProps) {
+export default function IconPicker({
+  onChange,
+  value = '',
+  className = '',
+}: IconPickerProps) {
   const [paletteIsOpen, setPaletteIsOpen] = React.useState(false);
-  const [selectedIcon, setSelectedIcon] = React.useState('');
+  const [selectedIcon, setSelectedIcon] = React.useState(value);
 
   const handleChange = (icon: string) => {
     setSelectedIcon(icon);
@@ -53,8 +59,12 @@ export default function IconPicker({ onChange, className = '' }: IconPickerProps
   return (
     <React.Fragment>
       <button
+        type='button'
         onClick={() => setPaletteIsOpen(true)}
-        className={text.join('bg-bg p-4 rounded-2xl flex-between hover:bg-bg-100 w-full', className)}
+        className={text.join(
+          'bg-bg p-4 rounded-2xl flex-between hover:bg-bg-100 w-full',
+          className,
+        )}
       >
         <Icon id={selectedIcon} />
         <UiIcon id='arrowRight' />

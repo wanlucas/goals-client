@@ -8,7 +8,6 @@ export default async function removeBranch(id: string) {
 
     return { success: true };
   } catch (error) {
-    console.log(error);
     return { success: false };
   }
 }
