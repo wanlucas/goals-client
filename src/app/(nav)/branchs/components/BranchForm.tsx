@@ -10,12 +10,12 @@ import IconPicker from '@/components/IconPicker';
 import { useForm } from 'react-hook-form';
 
 const createBranchSchema = z.object({
-  name: z.string().min(3).max(30),
+  name: z.string().min(3).max(25),
   icon: z.string(),
 });
 
 const updateBranchSchema = z.object({
-  name: z.string().min(3).max(30).optional(),
+  name: z.string().min(3).max(25).optional(),
   icon: z.string().optional(),
 });
 
@@ -56,6 +56,7 @@ export default function BranchForm({
         <TextField
           name='name'
           placeholder='Nome da branch'
+          maxLength={25}
           onChange={handleChange}
           value={watch('name')}
         />

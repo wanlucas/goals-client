@@ -3,7 +3,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
-import { UpdateBranchPayload } from '@/services/api/branch';
+import { Branch, UpdateBranchPayload } from '@/services/api/branch';
 import useRequest from '@/hooks/useRequest';
 import BranchForm from '../../components/BranchForm';
 import updateBranch from '../../actions/update-branch';
@@ -18,13 +18,14 @@ interface UpdateBranchProps {
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   const router = useRouter();
 
-  const { data: currentBranch = {}, isLoading } = useRequest({
-    getData: () => findBranch(id),
+  const { data: currentBranch, isLoading } = useRequest<Branch>({
+    getData: async () => findBranch(id),
+    defaultData: {},
   });
 
   const handleSubmit = async (payload: UpdateBranchPayload) => {
     const { success } = await updateBranch(id, payload);
-    if (!success) throw new Error('Não foi possível criar a branch');
+    if (!success) throw new Error('Não foi possível atualizar a branch');
     router.push('/branchs');
   };
 

@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import text from '@/utils/text';
 import { useRouter } from 'next/navigation';
 import ActionsBar from '@/components/ActionsBar';
 import xp from '@/utils/xp';
 import CircularProgress from '@/components/CircularProgress';
 import { Branch } from '@/services/api/branch';
 import removeBranch from '../actions/remove-branch';
-import text from '@/utils/text';
 
 interface BranchButtonProps {
   branch: Branch;
@@ -35,8 +35,8 @@ export default function BranchBtn({ branch }: BranchButtonProps) {
           icon={branch.icon}
         />
 
-        <div className='text-right'>
-          <p className='text-lg'>{text.firstUpper(branch.name)}</p>
+        <div className='text-right max-w-[70%]'>
+          <p className='text-lg leading-5'>{text.firstUpper(branch.name)}</p>
           <p className='text-sm text-gray-400'>{branch.xp}</p>
         </div>
       </Link>

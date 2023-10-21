@@ -7,8 +7,8 @@ export interface OnChangeProps<Name = string> {
 }
 
 interface TextFieldProps {
-  label?: string;
   type?: 'text' | 'number' | 'password';
+  maxLength?: number;
   name: string;
   placeholder?: string;
   value?: string;
@@ -20,6 +20,7 @@ export default function TextField({
   name,
   value,
   placeholder,
+  maxLength = 100,
   type = 'text',
 }: TextFieldProps) {
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +35,7 @@ export default function TextField({
         value={value}
         placeholder={placeholder}
         onChange={handleChange}
+        maxLength={maxLength}
         autoComplete='off'
         className='h-full text-white w-full outline-none z-10 bg-bg rounded-md p-4 hover:bg-bg-100'
       />

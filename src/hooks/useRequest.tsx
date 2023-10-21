@@ -1,17 +1,38 @@
 import React from 'react';
 
-interface RequestProps {
-  getData: () => Promise<any>;
+interface SuccessResponse<Data> {
+  success: boolean;
+  data: Data;
 }
 
-export default function useRequest({ getData }: RequestProps) {
+interface ErrorResponse {
+  success: boolean;
+  data: undefined;
+}
+
+interface RequestProps<Data> {
+  getData: () => Promise<SuccessResponse<Data> | ErrorResponse>;
+  onError?: () => void;
+  defaultData?: any;
+}
+
+export default function useRequest<Data>({
+  getData,
+  onError,
+  defaultData = [],
+}: RequestProps<Data>) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState<Data>(defaultData);
+
+  const handleError = () => onError && onError();
 
   const request = async () => {
     setIsLoading(true);
     const response = await getData();
-    setData(response.data);
+
+    if (response.data) setData(response.data);
+    else handleError();
+
     setIsLoading(false);
   };
 
