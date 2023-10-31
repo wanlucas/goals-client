@@ -1,6 +1,6 @@
 import requests from '@/utils/requests';
 import { revalidatePath } from 'next/cache';
-import { Goal } from './goals';
+import { Goal } from './goal';
 
 export interface Branch {
   id: string;

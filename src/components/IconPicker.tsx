@@ -66,7 +66,10 @@ export default function IconPicker({
         )}
       >
         <Icon id={selectedIcon} />
-        <UiIcon id='arrowRight' />
+        <UiIcon id='arrowRight' className={text.join(
+          'transition-all',
+          paletteIsOpen && 'rotate-90',
+        )} />
       </button>
 
       <IconPalette

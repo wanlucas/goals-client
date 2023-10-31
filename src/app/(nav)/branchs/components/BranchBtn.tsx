@@ -36,7 +36,7 @@ export default function BranchBtn({ branch }: BranchButtonProps) {
         />
 
         <div className='text-right max-w-[70%]'>
-          <p className='text-lg leading-5'>{text.firstUpper(branch.name)}</p>
+          <p className='text-base leading-5'>{text.firstUpper(branch.name)}</p>
           <p className='text-sm text-gray-400'>{branch.xp}</p>
         </div>
       </Link>
