@@ -16,7 +16,7 @@ interface BranchButtonProps {
 export default function BranchBtn({ branch }: BranchButtonProps) {
   const router = useRouter();
 
-  const handleEdit = (id: string) => router.push(`/branchs/update/${id}`);
+  const handleEdit = (id: string) => router.push(`/branchs/${id}/update`);
 
   const handleDelete = async (id: string) => {
     const { success } = await removeBranch(id);

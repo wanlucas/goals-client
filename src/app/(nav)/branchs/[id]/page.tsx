@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from '@/components/Header';
 import api from '@/services/api';
+import text from '@/utils/text';
 import UiIcon from '@/components/UiIcon';
 import xp from '@/utils/xp';
-import CircularProgress from '@/components/CircularProgress';
-import text from '@/utils/text';
 import GoalCard from '../components/GoalCard';
+import CircularProgress from '@/components/CircularProgress';
+import Link from 'next/link';
 
 interface UpdateBranchProps {
   params: {
@@ -21,8 +22,9 @@ export default async function UpdateBranch({
   return (
     <div className='flex flex-col items-start w-full h-full'>
       <Header previousPath='/branchs'>
-        <UiIcon id='edit' size={26} />
-        <UiIcon id='options' size={26} />
+        <Link href={`/branchs/${id}/update`}>
+          <UiIcon id='edit' size={26} />
+        </Link>
       </Header>
 
       <div className='w-full p-4 bg-bg-200 rounded-t-3xl h-full'>
