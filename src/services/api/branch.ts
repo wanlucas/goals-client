@@ -1,5 +1,6 @@
 import requests from '@/utils/requests';
 import { revalidatePath } from 'next/cache';
+import { Goal } from './goals';
 
 export interface Branch {
   id: string;
@@ -9,13 +10,17 @@ export interface Branch {
   icon: string;
 }
 
+export interface BranchWithGoals extends Branch {
+  goals: Goal[];
+}
+
 export type CreateBranchPayload = Omit<Branch, 'xp' | 'id'>;
 
 export type UpdateBranchPayload = Partial<Branch>;
 
 const findAll = () => requests.get<Branch[]>('branch');
 
-const findById = (id: string) => requests.get<Branch>(`branch/${id}`);
+const findById = (id: string) => requests.get<BranchWithGoals>(`branch/${id}`);
 
 const create = (payload: CreateBranchPayload) => {
   revalidatePath('/branchs');

@@ -12,7 +12,6 @@ interface IconPaletteProps {
 }
 
 const allIcons = Object.keys(icons);
-const iconSize = 35;
 
 export function IconPalette({ onChange, onClose, isOpen }: IconPaletteProps) {
   const handleSelect = (icon: string) => {
@@ -29,7 +28,7 @@ export function IconPalette({ onChange, onClose, isOpen }: IconPaletteProps) {
             onClick={() => handleSelect(icon)}
             className='justify-center flex w-[20%] sm:w-[10%] md:w-[6.66%] h-[50px] active:scale-110 hover:scale-110'
           >
-            <Icon id={icon} size={iconSize} />
+            <Icon id={icon} size={35} />
           </li>
         ))}
       </ul>

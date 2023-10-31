@@ -18,7 +18,7 @@ interface UpdateBranchProps {
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   const router = useRouter();
 
-  const { data: currentBranch, isLoading } = useRequest<Branch>({
+  const { data: branch, isLoading } = useRequest<Branch>({
     getData: async () => findBranch(id),
     defaultData: {},
   });
@@ -38,8 +38,8 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
         update
         onSubmit={handleSubmit}
         defaultValues={{
-          icon: currentBranch.icon,
-          name: currentBranch.name,
+          icon: branch.icon,
+          name: branch.name,
         }}
       />
     </div>

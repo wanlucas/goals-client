@@ -24,7 +24,6 @@ export default function Icon({
     <Image
       src={icon.value}
       alt={icon.alt}
-      loader={() => icon.value}
       width={size}
       height={size}
       className={className}
