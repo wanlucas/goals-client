@@ -10,24 +10,10 @@ interface GoalCardProps {
   goal: Goal;
 }
 
-const colorsByDifficulty = [
-  'text-green-600',
-  'text-green-300',
-  'text-blue-200',
-  'text-blue-300',
-  'text-blue-400',
-  'text-purple-300',
-  'text-purple-400',
-  'text-purple-500',
-  'text-red-400',
-  'text-red-600',
-];
 // TODO - desativar botão caso não existam tasks
 
 export default function GoalCard({ goal }: GoalCardProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const color = colorsByDifficulty[goal.difficulty - 1] as any;
 
   return (
     <li className='my-3'>
@@ -51,10 +37,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
           value={(goal.score / goal.target) * 100}
           variant='determinate'
           color='inherit'
-          className={text.join(
-            'absolute bottom-0 left-0 right-0 h-[2px]',
-            color,
-          )}
+          className='absolute bottom-0 left-0 right-0 h-[5px] text-color3'
         />
       </button>
 
