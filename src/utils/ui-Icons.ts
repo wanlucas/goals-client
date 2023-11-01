@@ -7,4 +7,6 @@ export default {
   options: { url: '/ui/options.svg', alt: 'Opções' },
   close: { url: '/ui/close.svg', alt: 'Fechar' },
   delete: { url: '/ui/delete.svg', alt: 'Deletar' },
+  branch: { url: '/ui/branch.svg', alt: 'Branch' },
+  statistics: { url: '/ui/statistics.svg', alt: 'Estatísticas' },
 };
