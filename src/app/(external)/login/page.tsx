@@ -22,7 +22,7 @@ export default function Login() {
 
       if (!success) throw new Error('Login inválido');
 
-      router.push('/');
+      router.push('/tasks');
     } catch (error) {
       console.log(error);
     }

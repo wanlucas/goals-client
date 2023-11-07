@@ -8,16 +8,16 @@ export default async function Branchs() {
 
   return (
     <React.Fragment>
-      <div className="flex-between mb-4 p-4">
+      <div className='flex-between p-4'>
         <div>
-          <h1 className="font-bold text-xl">Branchs</h1>
-          <p>{ `Total: ${branchs.length}`}</p>
+          <h1 className='font-bold text-xl'>Branchs</h1>
+          <p className='text-sm'>{`Total: ${branchs.length}`}</p>
         </div>
 
-        <NavigationBtn to="/branchs/create" icon='plus' />
+        <NavigationBtn to='/branchs/create' icon='plus' />
       </div>
 
-      <ul className="flex-col bg-bg-200 p-4 rounded-t-3xl h-full">
+      <ul className='flex-col bg-bg-200 p-4 rounded-t-3xl h-full'>
         {branchs?.map((branch) => (
           <BranchBtn key={branch.id} branch={branch} />
         ))}

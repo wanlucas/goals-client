@@ -64,18 +64,18 @@ const request = async (
 
 const get = async <Data>(
   url: string,
-  options: RequestOptions = {},
-): Promise<GetOutput<Data>> => request('GET', url, options);
+  options?: RequestOptions,
+): Promise<GetOutput<Data>> => request('GET', url, options || {});
 
 const post = async <Data>(
   url: string,
-  options: Options,
-): Promise<PostOutput<Data>> => request('POST', url, { ...options });
+  options: Options = {},
+): Promise<PostOutput<Data>> => request('POST', url, options);
 
 const put = async <Data>(
   url: string,
-  options: Options,
-): Promise<PostOutput<Data>> => request('PUT', url, { ...options });
+  options: Options = {},
+): Promise<PostOutput<Data>> => request('PUT', url, options);
 
 const remove = async (url: string): Promise<DeleteOutput> => request('DELETE', url);
 
