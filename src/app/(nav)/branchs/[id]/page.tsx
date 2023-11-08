@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '@/components/Header';
+import Link from 'next/link';
 import api from '@/services/api';
 import text from '@/utils/text';
 import UiIcon from '@/components/UiIcon';
 import xp from '@/utils/xp';
-import GoalCard from '../components/GoalCard';
 import CircularProgress from '@/components/CircularProgress';
-import Link from 'next/link';
+import GoalCard from '../components/GoalCard';
 
 interface UpdateBranchProps {
   params: {

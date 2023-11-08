@@ -10,12 +10,12 @@ export default function Checkbox({ checked, onChange }: CheckboxProps) {
   return (
     <button
       onChange={() => onChange && onChange(!checked)}
-      className='bg-white border-gray-500 rounded-full w-3 h-3 relative'
+      className='bg-white border-gray-500 rounded-full min-w-[13px] min-h-[13px] relative'
     >
       <div
         className={text.join(
-          'bg-gray-500 w-[10px] h-[10px] rounded-full transition-all absolute-centralized',
-          checked ? 'w-2 h-2' : 'w-0 h-0',
+          'w-0 h-0 bg-color3 rounded-full transition-all absolute-centralized',
+          checked ? 'min-w-[9px] min-h-[9px]' : 'w-0 h-0',
         )}
       />
     </button>

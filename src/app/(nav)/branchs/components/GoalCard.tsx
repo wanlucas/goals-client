@@ -5,6 +5,8 @@ import text from '@/utils/text';
 import { LinearProgress } from '@mui/material';
 import { Goal } from '@/services/api/goal';
 import React from 'react';
+import Divider from '@/components/Divider';
+import Frequency from '@/components/Frequency';
 
 interface GoalCardProps {
   goal: Goal;
@@ -44,20 +46,27 @@ export default function GoalCard({ goal }: GoalCardProps) {
       <ul
         className={text.join(
           'bg-bg-100 rounded-b-lg px-4 text-left overflow-y-scroll transition-all',
-          isOpen ? 'max-h-40 py-2' : 'max-h-0',
+          isOpen ? 'max-h-40 py-4' : 'max-h-0',
         )}
       >
-        {goal.tasks.map((task) => (
-          <li key={task.id} className='flex-between'>
-            <p key={task.id} className='text-xs my-3'>
-              {text.firstUpper(task.description)}
-            </p>
+        {goal.tasks.map((task, i) => (
+          <React.Fragment key={task.id}>
+            {i > 0 && <Divider />}
+            <li key={task.id} className='flex-between'>
+              <p key={task.id} className='text-sm'>
+                {text.firstUpper(task.description)}
+              </p>
 
-            <div className='text-xs flex gap-2 text-gray-400'>
-              {task.duration && <p>{`${task.duration} minutos`}</p>}
-              {task.quantity && <p>{`${task.quantity} vezes`}</p>}
-            </div>
-          </li>
+              <div>
+                <div className='text-sm flex justify-end gap-2 text-gray-400'>
+                  {task.duration && <p>{`${task.duration} minutos`}</p>}
+                  {task.quantity && <p>{`${task.quantity} vezes`}</p>}
+                </div>
+
+                <Frequency runAt={task.runAt} frequency={task.frequency} />
+              </div>
+            </li>
+          </React.Fragment>
         ))}
       </ul>
     </li>

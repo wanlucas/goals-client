@@ -11,3 +11,20 @@
 .fade-to-top {
   animation: fade-to-top 0.3s linear;
 }
+
+
+@keyframes fade-to-top-alt {
+  from {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-to-top-alt {
+  animation: fade-to-top-alt 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+}

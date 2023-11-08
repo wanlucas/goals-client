@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '@/components/Nav';
+import 'moment/locale/pt-br';
 
 export default function RootLayout({
   children,
