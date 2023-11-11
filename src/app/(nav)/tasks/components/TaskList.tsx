@@ -2,6 +2,7 @@
 
 import { TaskWithStatus } from '@/services/api/task';
 import React from 'react';
+import moment from 'moment';
 import Divider from '@/components/Divider';
 import TaskBtn from './TaskBtn';
 
@@ -10,9 +11,17 @@ interface TaskListProps {
 }
 
 export default function TaskList({ tasks }: TaskListProps) {
+  const [time, setTime] = React.useState(moment().format('HH:mm'));
   const [{ done, undone }, setTasks] = React.useState({
     done: tasks.filter((task) => task.done),
     undone: tasks.filter((task) => !task.done),
+  });
+
+  const sortByTime = (arr: TaskWithStatus[]) => arr.sort((a, b) => {
+    if (!a.time) return 1;
+    if (!b.time) return -1;
+    if (a.time === b.time) return 0;
+    return a.time > b.time ? 1 : -1;
   });
 
   const complete = (id: string) => setTasks((current) => {
@@ -21,7 +30,7 @@ export default function TaskList({ tasks }: TaskListProps) {
     target!.done = true;
     return {
       undone: current.undone.filter((task) => !task.done),
-      done: [...current.done, target!],
+      done: sortByTime([...current.done, target!]),
     };
   });
 
@@ -31,7 +40,7 @@ export default function TaskList({ tasks }: TaskListProps) {
     target!.done = false;
     return {
       done: current.done.filter((task) => task.done),
-      undone: [...current.undone, target!],
+      undone: sortByTime([...current.undone, target!]),
     };
   });
 
@@ -40,11 +49,24 @@ export default function TaskList({ tasks }: TaskListProps) {
     else uncomplete(id);
   };
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(moment().format('HH:mm'));
+    }, 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <React.Fragment>
       <ul className='flex-col'>
         {undone?.map((task) => (
-          <TaskBtn key={task.id} task={task} toggle={toggle} />
+          <TaskBtn
+            key={task.id}
+            task={task}
+            toggle={toggle}
+            currentTime={time}
+          />
         ))}
       </ul>
 

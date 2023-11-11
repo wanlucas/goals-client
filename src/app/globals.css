@@ -10,8 +10,11 @@
     --background-300: #26213d;
     --primary: #DCDCDD;
     --secondary: #A31621;
+    --secondary-100: #a4242f;
     --color3: #FF8C42;
-    --color4: #3B3355;
+    --color3-100: #f79c63;
+    --color3-200: #f9975a;
+    --color4: #2b7e3a;
   }
 
   body {

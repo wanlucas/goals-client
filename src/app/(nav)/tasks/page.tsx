@@ -3,6 +3,7 @@ import api from '@/services/api';
 import moment from 'moment';
 import NavigationBtn from '@/components/NavigationBtn';
 import TaskList from './components/TaskList';
+import CurrentHour from '../../../components/CurrentHour';
 
 export default async function Home() {
   const { data: tasks } = await api.task.findCurrent();
@@ -12,7 +13,8 @@ export default async function Home() {
       <div className='flex-between p-4'>
         <div>
           <h1 className='font-bold text-xl'>Tarefas de hoje</h1>
-          <p className='text-sm'>{moment().locale('pt-br').format('DD [de] MMMM')}</p>
+          <p className='text-sm'>{moment().locale('pt-br').format('D [de] MMMM')}</p>
+          <CurrentHour className='text-color3-200 text-xs' />
         </div>
 
         <NavigationBtn to='/tasks/create' icon='plus' />

@@ -3,7 +3,7 @@ import UiIcon from './UiIcon';
 
 export default function Nav() {
   return (
-    <nav className='flex justify-between items-center py-2 px-4 bg-bg'>
+    <nav className='flex justify-between rounded-t-3xl items-center pt-3 pb-1 px-4 bg-bg'>
       <Link href='/tasks'>
         <button type='button'>
           <UiIcon id='home' />

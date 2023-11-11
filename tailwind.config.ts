@@ -20,9 +20,13 @@ const config: Config = {
         },
         secondary: {
           DEFAULT: 'var(--secondary)',
+          100: 'var(--secondary-100)',
+          200: 'var(--secondary-200)',
         },
         color3: {
           DEFAULT: 'var(--color3)',
+          100: 'var(--color3-100)',
+          200: 'var(--color3-200)',
         },
         color4: {
           DEFAULT: 'var(--color4)',
