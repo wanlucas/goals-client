@@ -1,13 +1,18 @@
 import React from 'react';
 import { TaskWithRecord } from '@/services/api/task';
-import QuantityController from './QuantityController';
 import register from '../actions/register';
+import CircularBtn from '@/components/CircularBtn';
+import QuantityController from './QuantityController';
+import done from '../actions/done';
 
 interface TaskControllerProps {
   task: TaskWithRecord;
   isOpen: boolean;
-  toggle: (id: string, to: boolean) => {
-    undo: () => void
+  toggle: (
+    id: string,
+    to: boolean,
+  ) => {
+    undo: () => void;
   };
 }
 
@@ -18,6 +23,13 @@ export default function TaskController({
 }: TaskControllerProps) {
   const [quantity, setQuantity] = React.useState(task.record?.quantity || 0);
   const [duration, setDuration] = React.useState(task.record?.duration || 0);
+
+  const handleDone = async () => {
+    const { undo } = toggle(task.id, true);
+    const { success } = await done(task.id);
+
+    if (!success) undo();
+  }
 
   const handleQuantityChange = async (newQuantity: number) => {
     const prev = quantity;
@@ -40,7 +52,9 @@ export default function TaskController({
   if (!isOpen) return null;
 
   return (
-    <div className='px-4 py-1 flex bg-bg-100 rounded-b-lg justify-end grow-vertically'>
+    <div className='px-4 py-1 flex bg-bg-100 gap-3 rounded-b-lg justify-end grow-vertically'>
+      <CircularBtn onClick={handleDone} icon='check' size='sm' bg='blue' className='p-[3px]' />
+
       {task.quantity && (
         <QuantityController
           quantity={quantity}

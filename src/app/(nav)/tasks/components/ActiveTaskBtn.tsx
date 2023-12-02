@@ -6,11 +6,11 @@ import Checkbox from '@/components/Checkbox';
 import text from '@/utils/text';
 import moment from 'moment';
 import TaskController from './TaskController';
+import done from '../actions/done';
 
 const timeStates = {
   late: 'text-secondary-100',
   current: 'text-color4',
-  done: 'text-bg-100',
   undone: 'text-color3-100',
 };
 
@@ -34,15 +34,19 @@ export default function ActiveTaskBtn({
   const [isOpen, setIsOpen] = React.useState(false);
   const [state, setState] = React.useState<State>('undone');
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
+  const handleClick = async () => {
+    if (!isOpen && !task.quantity && !task.duration) {
+      const { undo } = toggle(task.id, true);
+      const { success } = await done(task.id);
+
+      if (!success) undo();
+    } else setIsOpen(!isOpen);
   };
 
-  const getState = ({ record, time }: TaskWithRecord): State => {
+  const getState = ({ time }: TaskWithRecord): State => {
     const diff = moment(time, 'hh:mm').diff(moment(), 'minutes');
     const tolerance = 20;
 
-    if (record?.done) return 'done';
     if (!time || diff > tolerance) return 'undone';
     if (diff < -tolerance) return 'late';
     return 'current';

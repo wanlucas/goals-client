@@ -24,6 +24,8 @@ const sizes = {
 const bgColors = {
   primary: 'bg-secondary',
   secondary: 'bg-color3',
+  green: 'bg-green-500',
+  blue: 'bg-blue-500',
 };
 
 export default function CircularBtn({

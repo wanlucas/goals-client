@@ -10,4 +10,5 @@ export default {
   delete: { url: '/ui/delete.svg', alt: 'Deletar' },
   branch: { url: '/ui/branch.svg', alt: 'Branch' },
   statistics: { url: '/ui/statistics.svg', alt: 'Estatísticas' },
+  check: { url: '/ui/check.svg', alt: 'Ok' },
 };
