@@ -14,10 +14,9 @@ export default function QuantityController({
   quantity,
   onChange,
 }: QuantityControllerProps) {
-  const handleClick = (dif: number) => {
+  const handleClick = async (dif: number) => {
     const to = Math.min(target, Math.max(0, quantity + dif));
-    // TODO - add debounce
-    if (onChange) onChange(to);
+    if (onChange && to !== quantity) onChange(to);
   };
 
   return (

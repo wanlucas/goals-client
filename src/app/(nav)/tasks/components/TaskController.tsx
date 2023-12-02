@@ -1,13 +1,14 @@
 import React from 'react';
 import { TaskWithRecord } from '@/services/api/task';
 import QuantityController from './QuantityController';
-import toggleTask from '../actions/toggle-task';
 import register from '../actions/register';
 
 interface TaskControllerProps {
   task: TaskWithRecord;
-  toggle: (id: string, to: boolean) => void;
   isOpen: boolean;
+  toggle: (id: string, to: boolean) => {
+    undo: () => void
+  };
 }
 
 export default function TaskController({
@@ -18,20 +19,22 @@ export default function TaskController({
   const [quantity, setQuantity] = React.useState(task.record?.quantity || 0);
   const [duration, setDuration] = React.useState(task.record?.duration || 0);
 
-  const handleConfirm = async () => {
-    const to = !task.record?.done;
-
-    toggle(task.id, to);
-    const { success } = await toggleTask(task.id, to);
-    if (!success) toggle(task.id, !to);
-  };
-
   const handleQuantityChange = async (newQuantity: number) => {
     const prev = quantity;
+    let undoToggle = () => {};
+
     setQuantity(newQuantity);
 
+    if (newQuantity === task.quantity && !task.record?.done) {
+      undoToggle = toggle(task.id, true).undo;
+    }
+
     const { success } = await register(task.id, { quantity: newQuantity });
-    if (!success) setQuantity(prev);
+
+    if (!success) {
+      undoToggle();
+      setQuantity(prev);
+    }
   };
 
   if (!isOpen) return null;

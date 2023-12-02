@@ -1,18 +1,19 @@
 'use client';
 
-import { Task, TaskWithRecord } from '@/services/api/task';
+import useCustomState from '@/hooks/useCustomState';
 import React from 'react';
-import moment from 'moment';
+import { Task, TaskWithRecord } from '@/services/api/task';
 import Divider from '@/components/Divider';
 import TaskBtn from './TaskBtn';
+import ActiveTaskBtn from './ActiveTaskBtn';
 
 interface TaskListProps {
   tasks: TaskWithRecord[];
+  currentTime: string;
 }
 
-export default function TaskList({ tasks }: TaskListProps) {
-  const [time, setTime] = React.useState(moment().format('HH:mm'));
-  const [{ done, undone }, setTasks] = React.useState({
+export default function TaskList({ tasks, currentTime }: TaskListProps) {
+  const [{ done, undone }, setTasks] = useCustomState({
     done: tasks.filter((task) => task.record?.done),
     undone: tasks.filter((task) => !task.record?.done),
   });
@@ -24,58 +25,54 @@ export default function TaskList({ tasks }: TaskListProps) {
     return a.time > b.time ? 1 : -1;
   });
 
-  const complete = (id: string) => setTasks((current) => {
-    const target = current.undone.find((task: Task) => task.id === id);
+  const complete = (id: string) => {
+    const target = undone.find((task: Task) => task.id === id);
 
-    if (!target) return current;
+    if (!target) throw new Error('Task not found');
 
-    target.record = {
+    const record = {
       done: true,
       quantity: target.quantity,
       duration: target.duration,
     };
 
-    return {
-      undone: current.undone.filter((task) => !task.record?.done),
-      done: sortByTime([...current.done, target!]),
-    };
-  });
-
-  const uncomplete = (id: string) => setTasks((current) => {
-    const target = current.done.find((task) => task.id === id);
-
-    if (!target) return current;
-
-    target!.record = undefined;
-
-    return {
-      done: current.done.filter((task) => task.record?.done),
-      undone: sortByTime([...current.undone, target!]),
-    };
-  });
-
-  const toggle = (id: string, to: boolean) => {
-    if (to) complete(id);
-    else uncomplete(id);
+    return setTasks({
+      undone: undone.filter((task) => task.id !== id),
+      done: sortByTime([...done, { ...target, record }]),
+    });
   };
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(moment().format('HH:mm'));
-    }, 60 * 1000);
+  const uncomplete = (id: string) => {
+    const target = done.find((task) => task.id === id);
 
-    return () => clearInterval(interval);
-  }, []);
+    if (!target) throw new Error('Task not found');
+
+    const record = {
+      done: false,
+      quantity: 0,
+      duration: 0,
+    };
+
+    return setTasks({
+      done: done.filter((task) => task.id !== id),
+      undone: sortByTime([...undone, { ...target, record }]),
+    });
+  };
+
+  const toggle = (id: string, to: boolean) => {
+    if (to) return complete(id);
+    return uncomplete(id);
+  };
 
   return (
     <React.Fragment>
       <ul className='flex-col'>
         {undone?.map((task) => (
-          <TaskBtn
+          <ActiveTaskBtn
             key={task.id}
             task={task}
             toggle={toggle}
-            currentTime={time}
+            currentTime={currentTime}
           />
         ))}
       </ul>
