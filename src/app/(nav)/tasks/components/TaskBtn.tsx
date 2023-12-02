@@ -1,11 +1,11 @@
 'use client';
 
-import { TaskWithStatus } from '@/services/api/task';
+import { TaskWithRecord } from '@/services/api/task';
 import React from 'react';
 import Checkbox from '@/components/Checkbox';
 import text from '@/utils/text';
 import moment from 'moment';
-import toggleTask from '../actions/toggle-task';
+import TaskController from './TaskController';
 
 const timeStates = {
   late: 'text-secondary-100',
@@ -17,7 +17,7 @@ const timeStates = {
 type State = keyof typeof timeStates;
 
 interface TaskBtnProps {
-  task: TaskWithStatus;
+  task: TaskWithRecord;
   toggle: (id: string, to: boolean) => void;
   currentTime?: string;
   className?: string;
@@ -29,24 +29,21 @@ export default function TaskBtn({
   currentTime,
   className,
 }: TaskBtnProps) {
-  const getState = ({ done, time }: TaskWithStatus): State => {
-    const diff = moment(time, 'hh:mm').diff(moment(), 'minutes');
-    const tolerance = 100;
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [state, setState] = React.useState<State>('undone');
 
-    if (done) return 'done';
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const getState = ({ record, time }: TaskWithRecord): State => {
+    const diff = moment(time, 'hh:mm').diff(moment(), 'minutes');
+    const tolerance = 20;
+
+    if (record?.done) return 'done';
     if (!time || diff > tolerance) return 'undone';
     if (diff < -tolerance) return 'late';
     return 'current';
-  };
-
-  const [state, setState] = React.useState<State>(getState(task));
-
-  const handleClick = async () => {
-    const to = !task.done;
-
-    toggle(task.id, to);
-    const { success } = await toggleTask(task.id, to);
-    if (!success) toggle(task.id, !to);
   };
 
   React.useEffect(() => {
@@ -54,16 +51,16 @@ export default function TaskBtn({
   }, [currentTime]);
 
   return (
-    <li className='my-2'>
+    <li className='my-2 rounded-lg'>
       <button
         onClick={handleClick}
         className={text.join(
-          'p-4 h-16 rounded-lg w-full flex-between',
-          task.done ? 'bg-bg-100' : 'bg-bg',
+          'p-4 h-16 rounded-t-lg w-full flex-between',
+          task.record?.done ? 'bg-bg-100' : 'bg-bg',
           className,
         )}
       >
-        <Checkbox checked={task.done} />
+        <Checkbox checked={Boolean(task.record?.done)} />
 
         <div className='text-right text-sm'>
           <p>{text.firstUpper(task.description)}</p>
@@ -79,6 +76,12 @@ export default function TaskBtn({
           </div>
         </div>
       </button>
+
+      <TaskController
+        isOpen={isOpen}
+        task={task}
+        toggle={toggle}
+        />
     </li>
   );
 }

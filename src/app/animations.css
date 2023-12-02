@@ -28,3 +28,18 @@
 .fade-to-top-alt {
   animation: fade-to-top-alt 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)
 }
+
+
+@keyframes grow-vertically {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.grow-vertically {
+  animation: grow-vertically 0.1s linear;
+}

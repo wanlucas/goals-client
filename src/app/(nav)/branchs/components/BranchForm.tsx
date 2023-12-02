@@ -65,16 +65,18 @@ export default function BranchForm({
       <div className='flex-between gap-6 w-full mt-auto'>
         <Button
           onClick={navigateToBranchs}
-          title='Cancelar'
           className='w-1/2'
-        />
+        >
+          Cancelar
+      </Button>
 
         <Button
           type='submit'
-          title={update ? 'Salvar' : 'Criar'}
           color='secondary'
           className='w-1/2'
-        />
+        >
+          { update ? 'Salvar' : 'Criar' }
+        </Button>
       </div>
     </Form>
   );

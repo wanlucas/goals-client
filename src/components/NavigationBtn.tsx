@@ -2,9 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import text from '@/utils/text';
 import uiIcons from '@/utils/ui-Icons';
-import UiIcon from './UiIcon';
+import CircularBtn from './CircularBtn';
 
 interface NavigationBtnProps {
   to: string;
@@ -25,10 +24,7 @@ export default function NavigationBtn({
 
   return (
     <Link href={to} onClick={handleClick}>
-      <button className={text.join('bg-secondary rounded-full w-9 h-9 flex-centralized active:scale-110 hover:scale-110', className)}>
-        {icon && <UiIcon id={icon} />}
-        {children}
-      </button>
+      <CircularBtn icon={icon} className={className}>{ children }</CircularBtn>
     </Link>
   );
 }

@@ -1,23 +1,23 @@
 'use client';
 
-import { TaskWithStatus } from '@/services/api/task';
+import { Task, TaskWithRecord } from '@/services/api/task';
 import React from 'react';
 import moment from 'moment';
 import Divider from '@/components/Divider';
 import TaskBtn from './TaskBtn';
 
 interface TaskListProps {
-  tasks: TaskWithStatus[];
+  tasks: TaskWithRecord[];
 }
 
 export default function TaskList({ tasks }: TaskListProps) {
   const [time, setTime] = React.useState(moment().format('HH:mm'));
   const [{ done, undone }, setTasks] = React.useState({
-    done: tasks.filter((task) => task.done),
-    undone: tasks.filter((task) => !task.done),
+    done: tasks.filter((task) => task.record?.done),
+    undone: tasks.filter((task) => !task.record?.done),
   });
 
-  const sortByTime = (arr: TaskWithStatus[]) => arr.sort((a, b) => {
+  const sortByTime = (arr: TaskWithRecord[]) => arr.sort((a, b) => {
     if (!a.time) return 1;
     if (!b.time) return -1;
     if (a.time === b.time) return 0;
@@ -25,11 +25,18 @@ export default function TaskList({ tasks }: TaskListProps) {
   });
 
   const complete = (id: string) => setTasks((current) => {
-    const target = current.undone.find((task) => task.id === id);
+    const target = current.undone.find((task: Task) => task.id === id);
 
-    target!.done = true;
+    if (!target) return current;
+
+    target.record = {
+      done: true,
+      quantity: target.quantity,
+      duration: target.duration,
+    };
+
     return {
-      undone: current.undone.filter((task) => !task.done),
+      undone: current.undone.filter((task) => !task.record?.done),
       done: sortByTime([...current.done, target!]),
     };
   });
@@ -37,9 +44,12 @@ export default function TaskList({ tasks }: TaskListProps) {
   const uncomplete = (id: string) => setTasks((current) => {
     const target = current.done.find((task) => task.id === id);
 
-    target!.done = false;
+    if (!target) return current;
+
+    target!.record = undefined;
+
     return {
-      done: current.done.filter((task) => task.done),
+      done: current.done.filter((task) => task.record?.done),
       undone: sortByTime([...current.undone, target!]),
     };
   });

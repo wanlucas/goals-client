@@ -2,7 +2,7 @@ import React from 'react';
 import text from '@/utils/text';
 
 interface ButtonProps {
-  title: string;
+  children: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   color?: keyof typeof bgColors;
@@ -15,7 +15,7 @@ const bgColors = {
 };
 
 export default function Button({
-  title, onClick, type = 'button', className = '', color = 'primary',
+  children, onClick, type = 'button', className = '', color = 'primary',
 }: ButtonProps) {
   return (
     <button
@@ -27,7 +27,7 @@ export default function Button({
         bgColors[color],
       )}
     >
-      {title}
+      {children}
     </button>
   );
 }

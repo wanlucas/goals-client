@@ -11,11 +11,20 @@ export interface Task {
   runAt: any;
 }
 
-export interface TaskWithStatus extends Task {
-  done: boolean;
+export interface TaskRecord {
+  duration: number | null;
+  quantity: number | null;
+  done: boolean
 }
 
-const findCurrent = () => requests.get<TaskWithStatus[]>('task/current');
+export interface TaskWithRecord extends Task {
+  record?: TaskRecord;
+}
+
+const findCurrent = () => requests.get<TaskWithRecord[]>('task/current');
+
+const register = (taskId: string, record: Partial<TaskRecord>) => requests
+  .put(`task/${taskId}/register`, { body: record });
 
 const complete = (id: string) => requests.put(`task/${id}/done`);
 
@@ -23,6 +32,7 @@ const uncomplete = (id: string) => requests.put(`task/${id}/undone`);
 
 export default {
   findCurrent,
+  register,
   complete,
   uncomplete,
 };
