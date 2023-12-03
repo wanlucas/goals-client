@@ -1,3 +1,4 @@
+import text from '@/utils/text';
 import CircularBtn from './NavigationBtn';
 import UiIcon from './UiIcon';
 
@@ -5,13 +6,19 @@ interface HeaderProps {
   previousPath?: string;
   title?: string;
   children?: React.ReactNode;
+  className?: string;
 }
 
-export default function Header({ title, previousPath, children }: HeaderProps) {
+export default function Header({
+  title, previousPath, children, className,
+}: HeaderProps) {
   return (
-    <header className='bg-bg flex-between p-4 w-full'>
+    <header className={text.join(
+      'bg-bg flex-between p-4 w-full',
+      className,
+    )}>
       {previousPath ? (
-        <CircularBtn to='/branchs'>
+        <CircularBtn to={previousPath}>
           <UiIcon id='arrowLeft' size={20} />
         </CircularBtn>
       ) : (

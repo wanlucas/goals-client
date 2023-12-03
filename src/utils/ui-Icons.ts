@@ -11,4 +11,8 @@ export default {
   branch: { url: '/ui/branch.svg', alt: 'Branch' },
   statistics: { url: '/ui/statistics.svg', alt: 'Estatísticas' },
   check: { url: '/ui/check.svg', alt: 'Ok' },
+  clock: { url: '/ui/clock.svg', alt: 'Relógio' },
+  play: { url: '/ui/play.svg', alt: 'Play' },
+  refresh: { url: '/ui/refresh.svg', alt: 'Atualizar' },
+  pause: { url: '/ui/pause.svg', alt: 'Pausar' },
 };

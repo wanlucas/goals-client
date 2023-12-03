@@ -31,6 +31,9 @@ const config: Config = {
         color4: {
           DEFAULT: 'var(--color4)',
         },
+        color5: {
+          DEFAULT: 'var(--color5)',
+        },
       },
     },
   },

@@ -18,14 +18,15 @@ const sizes = {
   xs: 'w-4 h-4',
   sm: 'w-5 h-5',
   md: 'w-9 h-9',
-  lg: 'w-16 h-16',
+  lg: 'w-12 h-12',
 };
 
 const bgColors = {
   primary: 'bg-secondary',
   secondary: 'bg-color3',
-  green: 'bg-green-500',
-  blue: 'bg-blue-500',
+  tertiary: 'bg-color5',
+  bg: 'bg-bg',
+  black: 'bg-black',
 };
 
 export default function CircularBtn({
