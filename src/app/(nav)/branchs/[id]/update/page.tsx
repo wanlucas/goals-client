@@ -13,7 +13,7 @@ interface UpdateBranchProps {
   params: {
     id: string;
   };
-}
+} 
 
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   const router = useRouter();
