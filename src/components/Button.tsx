@@ -22,7 +22,7 @@ export default function Button({
       onClick={onClick}
       type={type}
       className={text.join(
-        'text-white rounded-full py-2 px-6 hover:brightness-110 active:scale-95 uppercase',
+        'text-white rounded-full py-2 px-4 hover:brightness-110 active:scale-95',
         className,
         bgColors[color],
       )}

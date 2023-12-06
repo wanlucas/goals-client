@@ -8,3 +8,5 @@ export interface Goal {
   difficulty: number;
   tasks: Task[];
 }
+
+export type CreateGoal = Omit<Goal, 'id' | 'score' | 'tasks'>;

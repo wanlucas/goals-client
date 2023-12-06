@@ -25,14 +25,16 @@ export default function UiIcon({
   const icon = useMemo(() => uiIcons[id], [id]);
 
   return (
-    <div className={text.join(className, bgColors[bg], 'rounded-full')}>
-      <Image
-        src={icon.url}
-        alt={icon.alt}
-        width={size}
-        height={size}
-        className='text-red-700'
-      />
-    </div>
+    <Image
+      src={icon.url}
+      alt={icon.alt}
+      width={size}
+      height={size}
+      className={text.join(
+        className,
+        bgColors[bg],
+        'rounded-full text-red-700',
+      )}
+    />
   );
 }
