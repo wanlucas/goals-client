@@ -11,7 +11,7 @@ interface ErrorResponse {
 }
 
 interface RequestProps<Data> {
-  getData: () => Promise<SuccessResponse<Data> | ErrorResponse>;
+  getData?: () => Promise<SuccessResponse<Data> | ErrorResponse>;
   onError?: () => void;
   defaultData?: any;
 }
@@ -28,10 +28,13 @@ export default function useRequest<Data>({
 
   const request = async () => {
     setIsLoading(true);
-    const response = await getData();
 
-    if (response.data) setData(response.data);
-    else handleError();
+    if (getData) {
+      const response = await getData();
+
+      if (response.data) setData(response.data);
+      else handleError();
+    } else setData(defaultData);
 
     setIsLoading(false);
   };

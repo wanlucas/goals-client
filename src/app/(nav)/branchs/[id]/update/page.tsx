@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import { Branch, UpdateBranchPayload } from '@/services/api/branch';
 import useRequest from '@/hooks/useRequest';
-import BranchForm from '../../components/BranchForm';
+import BranchForm from '../../create/components/BranchForm';
 import updateBranch from '../../actions/update-branch';
 import findBranch from '../../actions/find-branch';
 
@@ -13,7 +13,7 @@ interface UpdateBranchProps {
   params: {
     id: string;
   };
-} 
+}
 
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   const router = useRouter();

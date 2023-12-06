@@ -1,3 +1,4 @@
+import requests from '@/utils/requests';
 import { Task } from './task';
 
 export interface Goal {
@@ -9,4 +10,13 @@ export interface Goal {
   tasks: Task[];
 }
 
-export type CreateGoal = Omit<Goal, 'id' | 'score' | 'tasks'>;
+export type CreateGoalPayload = Omit<Goal, 'id' | 'score' | 'tasks'>;
+
+const bulkCreate = (payload: CreateGoalPayload) => requests.post('goal', { body: payload });
+
+const findAllByBranch = (branchId: string) => requests.get<Goal[]>(`goal/branch/${branchId}`);
+
+export default {
+  bulkCreate,
+  findAllByBranch,
+};

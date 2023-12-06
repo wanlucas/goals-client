@@ -7,20 +7,12 @@ interface UiIconProps {
   id: keyof typeof uiIcons;
   size?: number;
   className?: string;
-  bg?: keyof typeof bgColors;
 }
-
-const bgColors = {
-  default: 'bg-transparent',
-  primary: 'bg-secondary',
-  secondary: 'bg-color3',
-};
 
 export default function UiIcon({
   id,
   className = '',
   size = 22,
-  bg = 'default',
 }: UiIconProps) {
   const icon = useMemo(() => uiIcons[id], [id]);
 
@@ -32,8 +24,7 @@ export default function UiIcon({
       height={size}
       className={text.join(
         className,
-        bgColors[bg],
-        'rounded-full text-red-700',
+        'text-red-700',
       )}
     />
   );

@@ -6,7 +6,7 @@ import text from '@/utils/text';
 import UiIcon from '@/components/UiIcon';
 import xp from '@/utils/xp';
 import CircularProgress from '@/components/CircularProgress';
-import GoalCard from '../components/GoalCard';
+import GoalCard from './components/GoalCard';
 
 interface UpdateBranchProps {
   params: {

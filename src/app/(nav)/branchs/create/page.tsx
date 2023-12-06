@@ -3,7 +3,7 @@
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import { CreateBranchPayload } from '@/services/api/branch';
-import BranchForm from '../components/BranchForm';
+import BranchForm from './components/BranchForm';
 import createBranch from '../actions/create-branch';
 
 export default function CreateBranch() {

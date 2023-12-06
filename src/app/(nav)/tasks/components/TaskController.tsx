@@ -2,7 +2,7 @@ import React from 'react';
 import { TaskWithRecord } from '@/services/api/task';
 import CircularBtn from '@/components/CircularBtn';
 import register from '../actions/register';
-import QuantityController from './QuantityController';
+import QuantityController from '../../../../components/QuantityController';
 import done from '../actions/done';
 import DurationController from './DurationController';
 

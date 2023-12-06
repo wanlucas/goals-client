@@ -15,4 +15,5 @@ export default {
   play: { url: '/ui/play.svg', alt: 'Play' },
   refresh: { url: '/ui/refresh.svg', alt: 'Atualizar' },
   pause: { url: '/ui/pause.svg', alt: 'Pausar' },
+  quantity: { url: '/ui/quantity.svg', alt: 'Quantidade' },
 };

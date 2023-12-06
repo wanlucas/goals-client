@@ -8,31 +8,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import IconPicker from '@/components/IconPicker';
 import { useForm } from 'react-hook-form';
-import { CreateGoal } from '@/services/api/goal';
-import GoalsForm from './GoalsForm';
+import { CreateGoalPayload } from '@/services/api/goal';
+import React from 'react';
+import UiIcon from '@/components/UiIcon';
+import GoalsForm, { createGoalSchema } from './GoalsForm';
 
 const createBranchSchema = z.object({
   name: z.string().min(3).max(25),
   icon: z.string(),
-  goals: z.array(
-    z.object({
-      description: z.string().min(3).max(200),
-      target: z.number().min(1),
-      difficulty: z.number().min(1).max(10),
-    }),
-  ),
+  goals: z.array(createGoalSchema).optional(),
 });
 
 const updateBranchSchema = z.object({
   name: z.string().min(3).max(25).optional(),
   icon: z.string().optional(),
-  goals: z.array(
-    z.object({
-      description: z.string().min(3).max(200),
-      target: z.number().min(1),
-      difficulty: z.number().min(1).max(10),
-    }),
-  ).optional(),
+  goals: z.array(createGoalSchema).optional(),
 });
 
 interface BranchFormProps {
@@ -46,6 +36,7 @@ export default function BranchForm({
   defaultValues = {},
   update = false,
 }: BranchFormProps) {
+  const [showGoalsForm, setShowGoalsForm] = React.useState(false);
   const router = useRouter();
 
   const navigateToBranchs = () => router.push('/branchs');
@@ -60,9 +51,9 @@ export default function BranchForm({
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      className='p-4 bg-bg-200 rounded-t-3xl flex-between-column flex-grow w-full'
+      className='p-4 bg-bg-200 rounded-t-3xl flex flex-col flex-grow w-full'
     >
-      <div className='w-full'>
+      <div className='w-full mb-5'>
         <IconPicker
           onChange={(icon: string) => setValue('icon', icon)}
           className='mb-4'
@@ -78,22 +69,24 @@ export default function BranchForm({
         />
       </div>
 
-      <GoalsForm onChange={(goals: CreateGoal[]) => setValue('goals', goals)} />
+      {showGoalsForm ? (
+        <GoalsForm
+          onAdd={(goal: CreateGoalPayload) => setValue('goals', [...watch('goals'), goal])}
+        />
+      ) : (
+        <Button bg='tertiary' onClick={() => setShowGoalsForm(true)} className='flex-between w-28'>
+          <p className='ml-1'>Meta</p>
+          <UiIcon id='plus' />
+        </Button>
+      )}
 
       <div className='flex-between gap-6 w-full mt-auto'>
-        <Button
-          onClick={navigateToBranchs}
-          className='w-1/2'
-        >
+        <Button onClick={navigateToBranchs} className='w-1/2'>
           Cancelar
-      </Button>
+        </Button>
 
-        <Button
-          type='submit'
-          color='secondary'
-          className='w-1/2'
-        >
-          { update ? 'Salvar' : 'Criar' }
+        <Button type='submit' bg='secondary' className='w-1/2'>
+          {update ? 'Salvar' : 'Criar'}
         </Button>
       </div>
     </Form>
