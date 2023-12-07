@@ -11,9 +11,9 @@ export default async function createBranch(payload: Omit<CreateBranchPayload, 'u
 
     if (!userId) return { success: false };
 
-    await api.branch.create({ ...payload, userId });
+    const { data } = await api.branch.create({ ...payload, userId });
 
-    return { success: true };
+    return { success: true, data };
   } catch (error) {
     return { success: false };
   }

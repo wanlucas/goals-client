@@ -12,18 +12,9 @@ interface Options extends RequestOptions {
   body?: any;
 }
 
-interface GetOutput<Data> {
-  data: Data;
-  status: number;
-}
-
-interface PostOutput<Data = null> {
+interface RequestOutput<Data = null> {
   status: number;
   data: Data;
-}
-
-interface DeleteOutput {
-  status: number;
 }
 
 const request = async (
@@ -65,19 +56,22 @@ const request = async (
 const get = async <Data>(
   url: string,
   options?: RequestOptions,
-): Promise<GetOutput<Data>> => request('GET', url, options || {});
+): Promise<RequestOutput<Data>> => request('GET', url, options || {});
 
 const post = async <Data>(
   url: string,
   options: Options = {},
-): Promise<PostOutput<Data>> => request('POST', url, options);
+): Promise<RequestOutput<Data>> => request('POST', url, options);
 
 const put = async <Data>(
   url: string,
   options: Options = {},
-): Promise<PostOutput<Data>> => request('PUT', url, options);
+): Promise<RequestOutput<Data>> => request('PUT', url, options);
 
-const remove = async (url: string): Promise<DeleteOutput> => request('DELETE', url);
+const remove = async <Data>(
+  url: string,
+  options: Options = {},
+): Promise<RequestOutput<Data>> => request('DELETE', url, options);
 
 export default {
   get,

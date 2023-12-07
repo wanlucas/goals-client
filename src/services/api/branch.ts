@@ -24,7 +24,7 @@ const findById = (id: string) => requests.get<BranchWithGoals>(`branch/${id}`);
 
 const create = (payload: CreateBranchPayload) => {
   revalidatePath('/branchs');
-  return requests.post('branch', { body: payload });
+  return requests.post<Branch>('branch', { body: payload });
 };
 
 const remove = (id: string) => {

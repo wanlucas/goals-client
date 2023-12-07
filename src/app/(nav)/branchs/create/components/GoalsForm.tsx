@@ -6,8 +6,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import CircularBtn from '@/components/CircularBtn';
 import QuantityController from '@/components/QuantityController';
-import useRequest from '@/hooks/useRequest';
-import findBranch from '../../actions/find-branch';
 
 export const createGoalSchema = z.object({
   description: z.string().min(3).max(200),
@@ -16,8 +14,8 @@ export const createGoalSchema = z.object({
 });
 
 interface GoalsFormProps {
-  onAdd: (goals: CreateGoalPayload) => void;
-  branchId?: string;
+  onChange: (goals: CreateGoalPayload[]) => void;
+  goals?: CreateGoalPayload[];
 }
 
 const defaultValues = {
@@ -26,12 +24,7 @@ const defaultValues = {
   difficulty: 5,
 };
 
-export default function GoalsForm({ onAdd, branchId }: GoalsFormProps) {
-  const { data: branch } = useRequest({
-    getData: branchId ? () => findBranch(branchId) : undefined,
-    defaultData: [],
-  });
-
+export default function GoalsForm({ onChange, goals = [] }: GoalsFormProps) {
   const {
     handleSubmit, setValue, watch, reset,
   } = useForm({
@@ -40,7 +33,7 @@ export default function GoalsForm({ onAdd, branchId }: GoalsFormProps) {
   });
 
   const handleAdd = (goal: CreateGoalPayload) => {
-    onAdd(goal);
+    onChange([...goals, goal]);
     reset();
   };
 
@@ -73,7 +66,7 @@ export default function GoalsForm({ onAdd, branchId }: GoalsFormProps) {
             onChange={(quantity) => setValue('difficulty', quantity)}
           />
 
-          <CircularBtn icon="plus" size="md" bg="tertiary" onClick={handleSubmit(onAdd)} />
+          <CircularBtn icon="plus" size="md" bg="tertiary" onClick={handleSubmit(handleAdd)} />
         </div>
       </div>
     </React.Fragment>

@@ -71,7 +71,8 @@ export default function BranchForm({
 
       {showGoalsForm ? (
         <GoalsForm
-          onAdd={(goal: CreateGoalPayload) => setValue('goals', [...watch('goals'), goal])}
+          onChange={(goals: CreateGoalPayload[]) => setValue('goals', goals)}
+          goals={watch('goals')}
         />
       ) : (
         <Button bg='tertiary' onClick={() => setShowGoalsForm(true)} className='flex-between w-28'>

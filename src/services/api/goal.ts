@@ -12,11 +12,19 @@ export interface Goal {
 
 export type CreateGoalPayload = Omit<Goal, 'id' | 'score' | 'tasks'>;
 
-const bulkCreate = (payload: CreateGoalPayload) => requests.post('goal', { body: payload });
+export interface BulkCreateGoalPayload {
+  goals: CreateGoalPayload[];
+  branchId: string;
+}
+
+const bulkCreate = (payload: BulkCreateGoalPayload) => requests.post('goal/bulk', { body: payload });
+
+const bulkDelete = (ids: string[]) => requests.remove('goal/bulk', { body: ids });
 
 const findAllByBranch = (branchId: string) => requests.get<Goal[]>(`goal/branch/${branchId}`);
 
 export default {
   bulkCreate,
+  bulkDelete,
   findAllByBranch,
 };
