@@ -59,15 +59,17 @@ export default function Table({
             ))}
 
             {actions && (
-              <td className='flex gap-2'>
-                {actions.map(({ icon, onClick }) => (
-                  <CircularBtn
-                    key={i}
-                    icon={icon}
-                    bg='transparent'
-                    onClick={() => onClick(i)}
-                  />
-                ))}
+              <td>
+                <div className="flex gap-2 items-center h-full">
+                  {actions.map(({ icon, onClick }) => (
+                    <CircularBtn
+                      key={i}
+                      icon={icon}
+                      bg="transparent"
+                      onClick={() => onClick(i)}
+                    />
+                  ))}
+                </div>
               </td>
             )}
           </tr>

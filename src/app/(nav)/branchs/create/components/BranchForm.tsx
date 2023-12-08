@@ -35,7 +35,7 @@ export default function BranchForm({
   defaultValues = {},
   update = false,
 }: BranchFormProps) {
-  const [showGoalsForm, setShowGoalsForm] = React.useState(false);
+  const [showGoalsForm, setShowGoalsForm] = React.useState(defaultValues.goals?.length! > 0);
   const router = useRouter();
 
   const navigateToBranchs = () => router.push('/branchs');
@@ -72,6 +72,7 @@ export default function BranchForm({
         <GoalsForm
           onChange={(goals: CreateGoalPayload[]) => setValue('goals', goals)}
           goals={watch('goals')}
+          currentGoals={defaultValues.goals}
         />
       ) : (
         <Button

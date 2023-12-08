@@ -1,6 +1,4 @@
 import text from '@/utils/text';
-import CircularBtn from './NavigationBtn';
-import UiIcon from './UiIcon';
 import NavigationBtn from './NavigationBtn';
 
 interface HeaderProps {

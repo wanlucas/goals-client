@@ -1,5 +1,4 @@
 import React from 'react';
-import UiIcon from './UiIcon';
 import CircularBtn from './CircularBtn';
 
 interface BottomBarProps {

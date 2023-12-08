@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField, { OnChangeProps } from '@/components/TextField';
-import { CreateGoalPayload } from '@/services/api/goal';
+import { CreateGoalPayload, Goal } from '@/services/api/goal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -17,6 +17,7 @@ export const createGoalSchema = z.object({
 interface GoalsFormProps {
   onChange: (goals: CreateGoalPayload[]) => void;
   goals?: CreateGoalPayload[];
+  currentGoals?: CreateGoalPayload[];
 }
 
 const defaultValues = {
@@ -25,7 +26,7 @@ const defaultValues = {
   difficulty: 5,
 };
 
-export default function GoalsForm({ onChange, goals = [] }: GoalsFormProps) {
+export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsFormProps) {
   const {
     handleSubmit, setValue, watch, reset,
   } = useForm({
@@ -43,6 +44,12 @@ export default function GoalsForm({ onChange, goals = [] }: GoalsFormProps) {
   };
 
   const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
+
+  React.useEffect(() => {
+    if (currentGoals) {
+      onChange(currentGoals);
+    }
+  }, []);
 
   return (
     <React.Fragment>

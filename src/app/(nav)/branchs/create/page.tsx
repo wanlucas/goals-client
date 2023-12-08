@@ -9,7 +9,7 @@ import createBranch from '../actions/create-branch';
 import createGoals from '../actions/create-goals';
 
 interface CreateBranchAndGoalsPayload extends CreateBranchPayload {
-  goals: CreateGoalPayload[];
+  goals?: CreateGoalPayload[];
 }
 
 export default function CreateBranch() {

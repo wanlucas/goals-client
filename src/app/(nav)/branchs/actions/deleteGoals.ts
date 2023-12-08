@@ -2,7 +2,7 @@
 
 import api from '@/services/api';
 
-export default async function deleteBranchs(ids: string[]) {
+export default async function deleteGoals(ids: string[]) {
   try {
     await api.goal.bulkDelete(ids);
     return { success: true };
