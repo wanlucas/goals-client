@@ -3,8 +3,10 @@ import uiIcons from '@/utils/ui-Icons';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
+export type UiIconId = keyof typeof uiIcons;
+
 interface UiIconProps {
-  id: keyof typeof uiIcons;
+  id: UiIconId;
   size?: number;
   className?: string;
 }

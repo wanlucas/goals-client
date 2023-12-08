@@ -5,21 +5,11 @@ import text from '@/utils/text';
 import uiIcons from '@/utils/ui-Icons';
 import UiIcon from './UiIcon';
 
-interface CircularBtnProps {
-  onClick?: () => void;
-  icon?: keyof typeof uiIcons;
-  className?: string;
-  children?: React.ReactNode;
-  size?: keyof typeof sizes;
-  bg?: keyof typeof bgColors;
-  type?: 'button' | 'submit' | 'reset';
-}
-
 const sizes = {
   xs: 'w-4 h-4 min-w-[1rem] min-h-[1rem]',
   sm: 'w-5 h-5 min-w-[1.25rem] min-h-[1.25rem]',
   md: 'w-7 h-7 min-w-[1.75rem] min-h-[1.75rem]',
-  lg: 'w-12 h-12 min-w-[3rem] min-h-[3rem]',
+  lg: 'w-9 h-9 min-w-[2.25rem] min-h-[2.25rem]',
 };
 
 const bgColors = {
@@ -28,13 +18,26 @@ const bgColors = {
   tertiary: 'bg-color5',
   bg: 'bg-bg',
   black: 'bg-black',
+  transparent: 'bg-transparent',
 };
+
+export type BgColor = keyof typeof bgColors;
+
+interface CircularBtnProps {
+  onClick?: () => void;
+  icon?: keyof typeof uiIcons;
+  className?: string;
+  children?: React.ReactNode;
+  size?: keyof typeof sizes;
+  bg?: BgColor;
+  type?: 'button' | 'submit' | 'reset';
+}
 
 export default function CircularBtn({
   children,
   onClick,
   icon,
-  size = 'md',
+  size = 'lg',
   bg = 'primary',
   className = '',
   type = 'button',
@@ -46,7 +49,8 @@ export default function CircularBtn({
       onClick={handleClick}
       type={type}
       className={text.join(
-        'rounded-full flex-centralized active:scale-110 hover:scale-110',
+        'active:scale-110 hover:scale-110',
+        bg !== 'transparent' && 'rounded-full flex-centralized',
         bgColors[bg],
         sizes[size],
         className,

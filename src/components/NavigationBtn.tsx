@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import uiIcons from '@/utils/ui-Icons';
-import CircularBtn from './CircularBtn';
+import CircularBtn, { BgColor } from './CircularBtn';
 
 interface NavigationBtnProps {
   to: string;
@@ -11,6 +11,7 @@ interface NavigationBtnProps {
   icon?: keyof typeof uiIcons;
   className?: string;
   children?: React.ReactNode;
+  bg?: BgColor;
 }
 
 export default function NavigationBtn({
@@ -18,13 +19,16 @@ export default function NavigationBtn({
   onClick,
   icon,
   to,
+  bg,
   className = '',
 }: NavigationBtnProps) {
   const handleClick = () => onClick && onClick();
 
   return (
     <Link href={to} onClick={handleClick}>
-      <CircularBtn icon={icon} className={className}>{ children }</CircularBtn>
+      <CircularBtn icon={icon} bg={bg} className={className}>
+        {children}
+      </CircularBtn>
     </Link>
   );
 }

@@ -10,7 +10,6 @@ import IconPicker from '@/components/IconPicker';
 import { useForm } from 'react-hook-form';
 import { CreateGoalPayload } from '@/services/api/goal';
 import React from 'react';
-import UiIcon from '@/components/UiIcon';
 import GoalsForm, { createGoalSchema } from './GoalsForm';
 
 const createBranchSchema = z.object({
@@ -51,18 +50,18 @@ export default function BranchForm({
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      className='p-4 bg-bg-200 rounded-t-3xl flex flex-col flex-grow w-full'
+      className="p-4 bg-bg-200 rounded-t-3xl flex flex-col flex-grow w-full"
     >
-      <div className='w-full mb-5'>
+      <div className="w-full mb-5">
         <IconPicker
           onChange={(icon: string) => setValue('icon', icon)}
-          className='mb-4'
+          className="mb-4"
           value={watch('icon')}
         />
 
         <TextField
-          name='name'
-          placeholder='Nome da branch'
+          name="name"
+          placeholder="Nome da branch"
           maxLength={25}
           onChange={handleChange}
           value={watch('name')}
@@ -75,18 +74,21 @@ export default function BranchForm({
           goals={watch('goals')}
         />
       ) : (
-        <Button bg='tertiary' onClick={() => setShowGoalsForm(true)} className='flex-between w-28'>
-          <p className='ml-1'>Meta</p>
-          <UiIcon id='plus' />
+        <Button
+          bg="tertiary"
+          onClick={() => setShowGoalsForm(true)}
+          className="flex-centralized gap-1 w-1/2"
+        >
+          <p className="ml-1">Nova meta</p>
         </Button>
       )}
 
-      <div className='flex-between gap-6 w-full mt-auto'>
-        <Button onClick={navigateToBranchs} className='w-1/2'>
+      <div className="flex-between gap-6 w-full mt-auto">
+        <Button onClick={navigateToBranchs} className="w-1/2">
           Cancelar
         </Button>
 
-        <Button type='submit' bg='secondary' className='w-1/2'>
+        <Button type="submit" bg="secondary" className="w-1/2">
           {update ? 'Salvar' : 'Criar'}
         </Button>
       </div>

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import CircularBtn from '@/components/CircularBtn';
 import QuantityController from '@/components/QuantityController';
+import Table from '@/components/Table';
 
 export const createGoalSchema = z.object({
   description: z.string().min(3).max(200),
@@ -37,6 +38,10 @@ export default function GoalsForm({ onChange, goals = [] }: GoalsFormProps) {
     reset();
   };
 
+  const handleRemove = (index: number) => {
+    onChange(goals.filter((_, i) => i !== index));
+  };
+
   const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
 
   return (
@@ -66,8 +71,39 @@ export default function GoalsForm({ onChange, goals = [] }: GoalsFormProps) {
             onChange={(quantity) => setValue('difficulty', quantity)}
           />
 
-          <CircularBtn icon="plus" size="md" bg="tertiary" onClick={handleSubmit(handleAdd)} />
+          <CircularBtn
+            icon="plus"
+            size="md"
+            bg="tertiary"
+            onClick={handleSubmit(handleAdd)}
+          />
         </div>
+
+        <Table
+          headers={[
+            {
+              key: 'description',
+              label: 'Meta',
+            },
+            {
+              key: 'target',
+              label: 'Alvo',
+            },
+            {
+              key: 'difficulty',
+              label: 'Nível',
+            },
+          ]}
+          data={goals}
+          actions={[
+            {
+              icon: 'delete',
+              onClick: handleRemove,
+            },
+          ]}
+          className="mt-4"
+          bg="tertiary"
+        />
       </div>
     </React.Fragment>
   );

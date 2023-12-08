@@ -1,6 +1,7 @@
 import text from '@/utils/text';
 import CircularBtn from './NavigationBtn';
 import UiIcon from './UiIcon';
+import NavigationBtn from './NavigationBtn';
 
 interface HeaderProps {
   previousPath?: string;
@@ -18,11 +19,9 @@ export default function Header({
       className,
     )}>
       {previousPath ? (
-        <CircularBtn to={previousPath}>
-          <UiIcon id='arrowLeft' size={20} />
-        </CircularBtn>
+        <NavigationBtn to={previousPath} icon='arrowLeft' />
       ) : (
-        <CircularBtn to='/' icon='home' />
+        <NavigationBtn to='/' icon='home' />
       )}
 
       <div className='flex gap-4'>
