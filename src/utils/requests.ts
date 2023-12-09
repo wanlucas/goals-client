@@ -1,3 +1,4 @@
+import { Query } from '@/services/api/type';
 import { cookies } from 'next/headers';
 
 const { API_URL = 'http://localhost:3001' } = process.env;
@@ -6,6 +7,7 @@ interface RequestOptions {
   cache?: RequestCache;
   credentials?: RequestCredentials;
   headers?: any;
+  query?: Query;
 }
 
 interface Options extends RequestOptions {
@@ -20,12 +22,14 @@ interface RequestOutput<Data = null> {
 const request = async (
   method: string,
   url: string,
-  options: Options = {},
+  { query: q, ...options }: Options = {},
 ) => {
   const cookieStore = cookies();
   const body = options.body ? JSON.stringify(options.body) : undefined;
+  const query = new URLSearchParams(q || {});
 
-  return fetch(`${API_URL}/${url}`, {
+  console.log(`${API_URL}/${url}${query}`);
+  return fetch(`${API_URL}/${url}${query}`, {
     ...options,
     method,
     body,

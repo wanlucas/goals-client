@@ -12,7 +12,7 @@ interface TextFieldProps {
   maxLength?: number;
   name: string;
   placeholder?: string;
-  value?: string | number;
+  value?: string | number | null;
   max?: number;
   min?: number;
   onChange: (event: OnChangeProps) => void;
@@ -42,7 +42,7 @@ export default function TextField({
       <input
         type={type}
         name={name}
-        value={value}
+        value={value || ''}
         placeholder={placeholder}
         onChange={handleChange}
         maxLength={maxLength}

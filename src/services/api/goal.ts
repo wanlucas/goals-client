@@ -17,6 +17,8 @@ export interface BulkCreateGoalPayload {
   branchId: string;
 }
 
+const findAll = () => requests.get<Goal[]>('goal');
+
 const bulkCreate = (payload: BulkCreateGoalPayload) => requests.post('goal/bulk', { body: payload });
 
 const bulkDelete = (ids: string[]) => requests.remove('goal/bulk', { body: ids });
@@ -24,6 +26,7 @@ const bulkDelete = (ids: string[]) => requests.remove('goal/bulk', { body: ids }
 const findAllByBranch = (branchId: string) => requests.get<Goal[]>(`goal/branch/${branchId}`);
 
 export default {
+  findAll,
   bulkCreate,
   bulkDelete,
   findAllByBranch,

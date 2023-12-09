@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField, { OnChangeProps } from '@/components/TextField';
-import { CreateGoalPayload, Goal } from '@/services/api/goal';
+import { CreateGoalPayload } from '@/services/api/goal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -46,9 +46,7 @@ export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsF
   const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
 
   React.useEffect(() => {
-    if (currentGoals) {
-      onChange(currentGoals);
-    }
+    if (currentGoals) onChange(currentGoals);
   }, []);
 
   return (
