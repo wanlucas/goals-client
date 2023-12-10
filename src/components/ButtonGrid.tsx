@@ -1,10 +1,11 @@
 import React from 'react';
-import { OnChangeProps } from './Select';
 import text from '@/utils/text';
+import { OnChangeProps } from './Select';
 
 interface ButtonGridProps {
   defaultLabel?: string;
   name: string;
+  className?: string;
   options: {
     label: string;
     value: string;
@@ -16,23 +17,22 @@ export default function ButtonGrid({
   options,
   name,
   defaultLabel,
+  className,
   onChange = () => {},
 }: ButtonGridProps) {
   const [selected, setSelected] = React.useState(() => {
-    if (defaultLabel) {
-      const found = options.find((option) => option.label === defaultLabel);
+    if (!defaultLabel) return '';
 
-      if (!found) return '';
+    const found = options.find((option) => option.label === defaultLabel);
 
-      onChange({ name: '', value: found.value });
-      return found.label;
-    }
+    if (!found) return '';
 
-    return '';
+    onChange({ name, value: found.value });
+    return found.label;
   });
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex w-full rounded-md overflow-hidden">
       {options.map((option) => (
         <button
           key={option.value}
@@ -41,8 +41,9 @@ export default function ButtonGrid({
             onChange({ name, value: option.value });
           }}
           className={text.join(
-            'bg-bg p-4 rounded-md hover:bg-color3 active:bg-color3',
+            'bg-bg py-2 px-4 grow hover:bg-color3',
             selected === option.label ? 'bg-color3' : 'bg-bg',
+            className,
           )}
         >
           <span className="text-white text-base font-bold">{option.label}</span>

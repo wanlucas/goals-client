@@ -22,10 +22,10 @@ interface TextFieldProps {
 export default function TextField({
   onChange,
   name,
-  value,
   placeholder,
   className,
   maxLength = 100,
+  value,
   type = 'text',
   ...props
 }: TextFieldProps) {
@@ -36,18 +36,18 @@ export default function TextField({
 
   return (
     <div className={text.join(
-      'relative h-9 z-10 bg-bg rounded-md hover:bg-bg-100',
+      'relative z-10 bg-bg rounded-md hover:bg-bg-100',
       className,
     )}>
       <input
         type={type}
         name={name}
-        value={value || ''}
+        value={value!}
         placeholder={placeholder}
         onChange={handleChange}
         maxLength={maxLength}
         autoComplete='off'
-        className='outline-none h-full text-white w-full bg-transparent p-4 max-w-[80%]'
+        className='outline-none h-full text-white w-full bg-transparent px-4 py-2 max-w-[80%]'
         {...props}
       />
 

@@ -41,23 +41,18 @@ export default function TaskForm({
 
   return (
     <React.Fragment>
-      <div>
-        <Select
-          label="Frequência"
-          name="frequency"
-          onChange={handleChange}
-          options={[
-            { label: 'Diário', value: 'daily' },
-            { label: 'Semanal', value: 'weekly' },
-            { label: 'Mensal', value: 'monthly' },
-          ]}
-        />
+      <Select
+        label="Frequência"
+        name="frequency"
+        onChange={handleChange}
+        options={[
+          { label: 'Diário', value: 'daily' },
+          { label: 'Semanal', value: 'weekly' },
+          { label: 'Mensal', value: 'monthly' },
+        ]}
+      />
 
-        <FrequencyInput
-          frequency='weekly'
-          onChange={() => {}}
-        />
-      </div>
+      <FrequencyInput frequency="weekly" onChange={() => {}} />
 
       <TextField
         name="description"
@@ -66,26 +61,30 @@ export default function TaskForm({
         value={watch('description')}
       />
 
-      <TextField
-        name="duration"
-        placeholder="Duração"
-        onChange={handleChange}
-        value={watch('duration')}
-      />
+      <div className="flex gap-2">
+        <TextField
+          name="time"
+          placeholder="Horário"
+          onChange={handleChange}
+          value={watch('time')}
+        />
 
-      <TextField
-        name="quantity"
-        placeholder="Quantidade"
-        onChange={handleChange}
-        value={watch('quantity')}
-      />
+        <TextField
+          name="duration"
+          placeholder="Duração"
+          onChange={handleChange}
+          value={watch('duration')}
+          type="number"
+        />
 
-      <TextField
-        name="time"
-        placeholder="Horário"
-        onChange={handleChange}
-        value={watch('time')}
-      />
+        <TextField
+          name="quantity"
+          placeholder="Quantidade"
+          onChange={handleChange}
+          value={watch('quantity')}
+          type="number"
+        />
+      </div>
     </React.Fragment>
   );
 }
