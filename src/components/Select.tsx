@@ -5,9 +5,9 @@ import text from '@/utils/text';
 import UiIcon from './UiIcon';
 import Divider from './Divider';
 
-export interface OnChangeProps {
+export interface OnChangeProps<Value = string> {
   name: string;
-  value: string;
+  value: Value;
 }
 
 interface SelectProps {

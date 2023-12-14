@@ -3,46 +3,52 @@ import text from '@/utils/text';
 import { OnChangeProps } from './Select';
 
 interface ButtonGridProps {
-  defaultLabel?: string;
   name: string;
   className?: string;
+  multiple?: boolean;
+  onChange: (event: OnChangeProps<string | string[]>) => void;
   options: {
     label: string;
     value: string;
   }[];
-  onChange?: (event: OnChangeProps) => void;
 }
 
 export default function ButtonGrid({
   options,
   name,
-  defaultLabel,
   className,
+  multiple = false,
   onChange = () => {},
 }: ButtonGridProps) {
-  const [selected, setSelected] = React.useState(() => {
-    if (!defaultLabel) return '';
+  const [selecteds, setSelecteds] = React.useState<string[]>([]);
 
-    const found = options.find((option) => option.label === defaultLabel);
+  const isSelected = (value: string) => selecteds.includes(value);
 
-    if (!found) return '';
+  const handleRemove = (value: string) => setSelecteds(
+    selecteds.filter((selected) => selected !== value),
+  );
 
-    onChange({ name, value: found.value });
-    return found.label;
-  });
+  const handleChange = (option: { label: string, value: string }) => {
+    if (multiple) {
+      if (isSelected(option.value)) handleRemove(option.value);
+      else setSelecteds([...selecteds, option.value]);
+    } else if (isSelected(option.value)) setSelecteds([]);
+    else setSelecteds([option.value]);
+  };
+
+  React.useEffect(() => {
+    onChange({ name, value: multiple ? selecteds : selecteds[0] });
+  }, [selecteds]);
 
   return (
-    <div className="flex w-full rounded-md overflow-hidden">
+    <div className="flex w-full justify-between rounded-md overflow-hidden">
       {options.map((option) => (
         <button
           key={option.value}
-          onClick={() => {
-            setSelected(option.label);
-            onChange({ name, value: option.value });
-          }}
+          onClick={() => handleChange(option)}
           className={text.join(
-            'bg-bg py-2 px-4 grow hover:bg-color3',
-            selected === option.label ? 'bg-color3' : 'bg-bg',
+            'bg-bg py-2 flex-1 hover:scale-105 active:scale-100 transition-all duration-75',
+            isSelected(option.value) ? 'bg-color5' : 'bg-bg',
             className,
           )}
         >
