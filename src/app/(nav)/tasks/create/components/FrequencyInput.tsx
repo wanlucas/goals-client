@@ -1,17 +1,26 @@
 import ButtonGrid from '@/components/ButtonGrid';
+import OptionsGrid from '@/components/OptionGrid';
 import React from 'react';
 
-function Daily() {
-  return <div>daily</div>;
-}
-
 function Monthly() {
-  return <div>Monthly</div>;
+  return (
+    <OptionsGrid
+      type='number'
+      max={31}
+      min={1}
+      name="runAt"
+      placeholder="Dia"
+      minW={100}
+    />
+  );
 }
 
-function Weekly() {
+function Weekly({ onChance }: { onChance: (frequency: string[]) => void }) {
   return (
     <ButtonGrid
+      multiple
+      name="runAt"
+      onChange={({ value }) => onChance(value as string[])}
       options={[
         { label: 'Dom', value: '0' },
         { label: 'Seg', value: '1' },
@@ -26,19 +35,21 @@ function Weekly() {
 }
 
 interface FrequencyInputProps {
-  frequency: 'daily' | 'weekly' | 'monthly';
-  onChange: (frequency: string) => void;
+  frequency?: 'daily' | 'weekly' | 'monthly';
+  onChange: (runAt: string[] | null) => void;
 }
 
 export default function FrequencyInput({
-  frequency,
   onChange,
+  frequency = 'daily',
 }: FrequencyInputProps) {
+  React.useEffect(() => {
+    onChange(null);
+  }, [frequency]);
+
   switch (frequency) {
-    case 'daily':
-      return <Daily />;
     case 'weekly':
-      return <Weekly />;
+      return <Weekly onChance={onChange} />;
     case 'monthly':
       return <Monthly />;
     default:

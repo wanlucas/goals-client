@@ -58,7 +58,7 @@ export default function Select({
         )}
       >
         <div className="flex-between text-base w-full">
-          {selected ? (
+          {selected && !isOpen ? (
             <p className="">{selected}</p>
           ) : (
             <p className="text-white/60">{label}</p>
@@ -78,7 +78,7 @@ export default function Select({
           isOpen ? 'max-h-32' : 'max-h-0',
         )}
       >
-        {options.filter((option) => option.label !== selected).map((option, i) => (
+        {options.map((option, i) => (
           <React.Fragment key={option.value}>
             {i > 0 && <Divider margin="none" />}
 

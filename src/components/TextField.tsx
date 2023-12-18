@@ -20,38 +20,59 @@ interface TextFieldProps {
 }
 
 export default function TextField({
-  onChange,
   name,
   placeholder,
   className,
   maxLength = 100,
   value,
+  onChange = () => {},
   type = 'text',
-  ...props
+  max = Infinity,
+  min = 0,
 }: TextFieldProps) {
+  const inputIsValid = (input: string) => !(
+    type === 'number' && input !== '' && /\D/.test(input)
+  );
+
+  const treatInput = (input: string) => (type === 'number' && input
+    ? Math.max(min, Math.min(max, Number(input)))
+    : input
+  );
+
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const treatedValue = type === 'number' ? Number(target.value) : target.value;
-    if (onChange) onChange({ name: target.name, value: treatedValue });
+    if (!inputIsValid(target.value)) return;
+
+    onChange({
+      name,
+      value: treatInput(target.value),
+    });
   };
 
   return (
-    <div className={text.join(
-      'relative z-10 bg-bg rounded-md hover:bg-bg-100',
-      className,
-    )}>
+    <div
+      className={text.join(
+        'relative z-10 bg-bg rounded-md hover:bg-bg-100',
+        className,
+      )}
+    >
       <input
-        type={type}
+        type={type === 'number' ? 'text' : type}
         name={name}
         value={value!}
         placeholder={placeholder}
         onChange={handleChange}
         maxLength={maxLength}
-        autoComplete='off'
-        className='outline-none h-full text-white w-full bg-transparent px-4 py-2 max-w-[80%]'
-        {...props}
+        autoComplete="off"
+        className="outline-none h-full text-white w-full bg-transparent px-4 py-2"
+        max={max}
+        min={min}
       />
 
-      <UiIcon id={type === 'number' ? 'quantity' : 'edit'} className='absolute-right' size={18} />
+      <UiIcon
+        id={type === 'number' ? 'quantity' : 'edit'}
+        className="absolute-right"
+        size={18}
+      />
     </div>
   );
 }

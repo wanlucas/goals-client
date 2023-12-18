@@ -45,14 +45,15 @@ export default function TaskForm({
         label="Frequência"
         name="frequency"
         onChange={handleChange}
+        defaultLabel='Todos os dias'
         options={[
-          { label: 'Diário', value: 'daily' },
+          { label: 'Todos os dias', value: 'daily' },
           { label: 'Semanal', value: 'weekly' },
           { label: 'Mensal', value: 'monthly' },
         ]}
       />
 
-      <FrequencyInput frequency="weekly" onChange={() => {}} />
+      <FrequencyInput frequency={watch('frequency')} onChange={() => {}} />
 
       <TextField
         name="description"
