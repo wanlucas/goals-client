@@ -2,34 +2,38 @@ import { ChangeEvent } from 'react';
 import text from '@/utils/text';
 import UiIcon from './UiIcon';
 
-export interface OnChangeProps<Name = string> {
-  name: Name;
-  value: string | number;
+type Value<T> = T extends 'number' ? number : string;
+
+export interface OnChangeProps<T> {
+  name: string;
+  value: Value<T>;
 }
 
-interface TextFieldProps {
-  type?: 'text' | 'number' | 'password';
+type TextFieldType = 'text' | 'number' | 'password';
+
+interface TextFieldProps<T> {
+  type?: T;
   maxLength?: number;
   name: string;
   placeholder?: string;
   value?: string | number | null;
   max?: number;
   min?: number;
-  onChange: (event: OnChangeProps) => void;
+  onChange: (event: OnChangeProps<T>) => void;
   className?: string;
 }
 
-export default function TextField({
+export default function TextField<T extends TextFieldType>({
   name,
   placeholder,
   className,
   maxLength = 100,
   value,
   onChange = () => {},
-  type = 'text',
+  type,
   max = Infinity,
   min = 0,
-}: TextFieldProps) {
+}: TextFieldProps<T>) {
   const inputIsValid = (input: string) => !(
     type === 'number' && input !== '' && /\D/.test(input)
   );
@@ -44,7 +48,7 @@ export default function TextField({
 
     onChange({
       name,
-      value: treatInput(target.value),
+      value: treatInput(target.value) as Value<T>,
     });
   };
 

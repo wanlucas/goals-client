@@ -2,7 +2,11 @@ import ButtonGrid from '@/components/ButtonGrid';
 import OptionsGrid from '@/components/OptionGrid';
 import React from 'react';
 
-function Monthly() {
+function Monthly({
+  onChange,
+}: {
+  onChange: (runAt: number[]) => void;
+}) {
   return (
     <OptionsGrid
       type='number'
@@ -10,25 +14,30 @@ function Monthly() {
       min={1}
       name="runAt"
       placeholder="Dia"
+      onChange={onChange}
       minW={100}
     />
   );
 }
 
-function Weekly({ onChance }: { onChance: (frequency: string[]) => void }) {
+function Weekly({
+  onChance,
+}: {
+  onChance: (frequency: number[]) => void;
+}) {
   return (
     <ButtonGrid
       multiple
       name="runAt"
-      onChange={({ value }) => onChance(value as string[])}
+      onChange={({ value }) => onChance(value as number[])}
       options={[
-        { label: 'Dom', value: '0' },
-        { label: 'Seg', value: '1' },
-        { label: 'Ter', value: '2' },
-        { label: 'Qua', value: '3' },
-        { label: 'Qui', value: '4' },
-        { label: 'Sex', value: '5' },
-        { label: 'Sab', value: '6' },
+        { label: 'Dom', value: 0 },
+        { label: 'Seg', value: 1 },
+        { label: 'Ter', value: 2 },
+        { label: 'Qua', value: 3 },
+        { label: 'Qui', value: 4 },
+        { label: 'Sex', value: 5 },
+        { label: 'Sab', value: 6 },
       ]}
     />
   );
@@ -36,7 +45,7 @@ function Weekly({ onChance }: { onChance: (frequency: string[]) => void }) {
 
 interface FrequencyInputProps {
   frequency?: 'daily' | 'weekly' | 'monthly';
-  onChange: (runAt: string[] | null) => void;
+  onChange: (runAt: number[] | null) => void;
 }
 
 export default function FrequencyInput({
@@ -51,7 +60,7 @@ export default function FrequencyInput({
     case 'weekly':
       return <Weekly onChance={onChange} />;
     case 'monthly':
-      return <Monthly />;
+      return <Monthly onChange={onChange} />;
     default:
       return null;
   }

@@ -36,6 +36,8 @@ export default function TaskForm({
     resolver: zodResolver(update ? updateTaskSchema : createTaskSchema),
     defaultValues,
   });
+  console.log(watch('runAt'));
+  console.log(watch('frequency'));
 
   const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
 
@@ -45,7 +47,7 @@ export default function TaskForm({
         label="Frequência"
         name="frequency"
         onChange={handleChange}
-        defaultLabel='Todos os dias'
+        defaultLabel="Todos os dias"
         options={[
           { label: 'Todos os dias', value: 'daily' },
           { label: 'Semanal', value: 'weekly' },
@@ -53,7 +55,10 @@ export default function TaskForm({
         ]}
       />
 
-      <FrequencyInput frequency={watch('frequency')} onChange={() => {}} />
+      <FrequencyInput
+        frequency={watch('frequency')}
+        onChange={(value) => setValue('runAt', value)}
+      />
 
       <TextField
         name="description"

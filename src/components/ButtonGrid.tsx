@@ -2,14 +2,16 @@ import React from 'react';
 import text from '@/utils/text';
 import { OnChangeProps } from './Select';
 
+type Value = string | number;
+
 interface ButtonGridProps {
   name: string;
   className?: string;
   multiple?: boolean;
-  onChange: (event: OnChangeProps<string | string[]>) => void;
+  onChange: (event: OnChangeProps<Value | Value[]>) => void;
   options: {
     label: string;
-    value: string;
+    value: Value;
   }[];
 }
 
@@ -20,15 +22,15 @@ export default function ButtonGrid({
   multiple = false,
   onChange = () => {},
 }: ButtonGridProps) {
-  const [selecteds, setSelecteds] = React.useState<string[]>([]);
+  const [selecteds, setSelecteds] = React.useState<Value[]>([]);
 
-  const isSelected = (value: string) => selecteds.includes(value);
+  const isSelected = (value: Value) => selecteds.includes(value);
 
-  const handleRemove = (value: string) => setSelecteds(
+  const handleRemove = (value: Value) => setSelecteds(
     selecteds.filter((selected) => selected !== value),
   );
 
-  const handleChange = (option: { label: string, value: string }) => {
+  const handleChange = (option: { label: string, value: Value }) => {
     if (multiple) {
       if (isSelected(option.value)) handleRemove(option.value);
       else setSelecteds([...selecteds, option.value]);
