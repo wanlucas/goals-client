@@ -8,7 +8,7 @@ export interface Task {
   quantity: number | null;
   time: string | null;
   frequency: string;
-  runAt: any;
+  runAt: number[] | null;
 }
 
 export interface TaskRecord {
@@ -21,6 +21,8 @@ export interface TaskWithRecord extends Task {
   record?: TaskRecord;
 }
 
+export type CreateTaskPayload = Omit<Task, 'id'>;
+
 const findCurrent = () => requests.get<TaskWithRecord[]>('task/current');
 
 const register = (taskId: string, record: Partial<TaskRecord>) => requests
@@ -30,9 +32,12 @@ const complete = (id: string) => requests.put(`task/${id}/done`);
 
 const uncomplete = (id: string) => requests.put(`task/${id}/undone`);
 
+const create = (payload: CreateTaskPayload) => requests.post('task', { body: payload });
+
 export default {
   findCurrent,
   register,
   complete,
   uncomplete,
+  create,
 };

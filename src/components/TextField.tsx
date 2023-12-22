@@ -4,8 +4,8 @@ import UiIcon from './UiIcon';
 
 type Value<T> = T extends 'number' ? number : string;
 
-export interface OnChangeProps<T> {
-  name: string;
+interface OnChangeProps<T> {
+  name: any;
   value: Value<T>;
 }
 
@@ -55,7 +55,7 @@ export default function TextField<T extends TextFieldType>({
   return (
     <div
       className={text.join(
-        'relative z-10 bg-bg rounded-md hover:bg-bg-100',
+        'relative z-10 bg-bg rounded-md hover:bg-bg-100 grow',
         className,
       )}
     >

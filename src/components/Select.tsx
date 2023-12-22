@@ -49,7 +49,7 @@ export default function Select({
   };
 
   return (
-    <div>
+    <div className='w-full'>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={text.join(

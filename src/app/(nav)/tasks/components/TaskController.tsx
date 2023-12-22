@@ -68,7 +68,7 @@ export default function TaskController({
       {task.quantity && (
         <QuantityController
           quantity={quantity}
-          target={task.quantity}
+          max={task.quantity}
           onChange={handleQuantityChange}
         />
       )}
