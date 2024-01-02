@@ -51,7 +51,7 @@ function Timer({
     clearInt();
     setSeconds(0);
     setMinutes(duration);
-    onChange(0);
+    onChange(duration);
     setTick(0);
   };
 
