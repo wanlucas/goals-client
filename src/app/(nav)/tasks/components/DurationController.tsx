@@ -1,4 +1,6 @@
 import CircularBtn from '@/components/CircularBtn';
+import Skeleton from '@/components/Skeleton';
+import text from '@/utils/text';
 import { CircularProgress } from '@mui/material';
 import React, { useMemo } from 'react';
 
@@ -19,10 +21,11 @@ function Timer({
   const [int, setInt] = React.useState<NodeJS.Timeout | null>(null);
   const [tick, setTick] = React.useState(0);
   const duration = React.useMemo(() => target, []);
+  const [finished, setFinished] = React.useState(false);
   const [seconds, setSeconds] = React.useState(0);
   const [minutes, setMinutes] = React.useState(duration);
   const percentage = useMemo(
-    () => Math.round(100 - (((minutes * 60 + seconds) / (duration * 60)) * 100)),
+    () => Math.round(100 - ((minutes * 60 + seconds) / (duration * 60)) * 100),
     [seconds],
   );
 
@@ -37,7 +40,7 @@ function Timer({
 
   const start = () => {
     clearInt();
-    setInt(setInterval(handleTick, 100));
+    setInt(setInterval(handleTick, 1000));
   };
 
   const pause = () => {
@@ -52,9 +55,15 @@ function Timer({
     setTick(0);
   };
 
-  const handleFinish = () => {
-    onFinish();
+  const stop = () => {
     clearInt();
+    setFinished(true);
+  };
+
+  const handleFinish = () => {
+    onChange(0);
+    clearInt();
+    onFinish();
   };
 
   React.useEffect(() => {
@@ -62,7 +71,7 @@ function Timer({
       let newSeconds = Math.max(seconds - 1, 0);
 
       if (newSeconds === 0) {
-        if (minutes !== duration) {
+        if (minutes !== duration && minutes > 0) {
           onChange(minutes);
         }
 
@@ -71,7 +80,7 @@ function Timer({
           setMinutes(newMinutes);
 
           newSeconds = 59;
-        } else handleFinish();
+        } else stop();
       }
 
       setSeconds(newSeconds);
@@ -79,46 +88,68 @@ function Timer({
   }, [tick]);
 
   return (
-    <div className='absolute-centralized flex-centralized-column gap-10 bg-color5 md:w-[400px] md:h-[600px] rounded-2xl sm:w-full sm:h-full text-white z-50'>
-      <CircularBtn
-        onClick={onClose}
-        className='absolute right-4 top-4'
-        icon='close'
-        size='md'
-        bg='bg'
-      />
+    <div className="flex-centralized absolute-centralized bg-white/20 w-full h-full">
+      <div className={text.join(
+        'relative flex-centralized-column gap-10 md:w-[400px] md:h-[600px] rounded-2xl w-full h-full text-white z-50',
+        finished ? 'bg-color4' : 'bg-color5',
+      )}>
+        <Skeleton open={!finished}>
+          <CircularBtn
+            onClick={onClose}
+            className="absolute right-4 top-4"
+            icon="close"
+            size="md"
+            bg="bg"
+          />
+        </Skeleton>
 
-      <div className='relative w-[300px] h-[300px] bg-bg rounded-full'>
-        <CircularProgress
-          variant='determinate'
-          color='inherit'
-          size={300}
-          thickness={2}
-          value={percentage}
-        />
+        <div className="relative w-[300px] h-[300px] bg-bg rounded-full">
+          <CircularProgress
+            variant="determinate"
+            color="inherit"
+            size={300}
+            thickness={2}
+            value={percentage}
+          />
 
-        <div className='absolute-centralized flex-centralized text-[50px]'>
-          {`${minutes < 10 ? `0${minutes}` : minutes}:${
-            seconds < 10 ? `0${seconds}` : seconds
-          }`}
+          <div className="absolute-centralized flex-centralized text-[50px]">
+            {`${minutes < 10 ? `0${minutes}` : minutes}:${
+              seconds < 10 ? `0${seconds}` : seconds
+            }`}
+          </div>
         </div>
-      </div>
 
-      <div className='flex gap-3'>
-        <CircularBtn icon='refresh' size='lg' bg='bg' onClick={restart} />
+        <div className="flex gap-3">
+          <Skeleton open={!finished}>
+            <CircularBtn icon="refresh" size="lg" bg="bg" onClick={restart} />
 
-        {int ? (
-          <CircularBtn icon='pause' size='lg' bg='secondary' onClick={pause} />
-        ) : (
-          <CircularBtn icon='play' size='lg' bg='secondary' onClick={start} />
-        )}
+            {int ? (
+              <CircularBtn
+                icon="pause"
+                size="lg"
+                bg="secondary"
+                onClick={pause}
+              />
+            ) : (
+              <CircularBtn
+                icon="play"
+                size="lg"
+                bg="secondary"
+                onClick={start}
+              />
+            )}
+          </Skeleton>
 
-        <CircularBtn
-          icon='check'
-          size='lg'
-          bg='primary'
-          onClick={handleFinish}
-        />
+          <CircularBtn
+            icon="check"
+            size="lg"
+            bg="primary"
+            onClick={handleFinish}
+            className={text.join(
+              finished && 'animate-pulse-alt',
+            )}
+          />
+        </div>
       </div>
     </div>
   );
@@ -142,9 +173,9 @@ export default function DurationController({
   return (
     <React.Fragment>
       <CircularBtn
-        icon='clock'
-        size='sm'
-        className='p-[1px]'
+        icon="clock"
+        size="sm"
+        className="p-[1px]"
         onClick={() => setIsOpen(true)}
       />
 

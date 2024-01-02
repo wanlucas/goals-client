@@ -43,3 +43,21 @@
 .grow-vertically {
   animation: grow-vertically 0.1s linear;
 }
+
+.animate-pulse-alt {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

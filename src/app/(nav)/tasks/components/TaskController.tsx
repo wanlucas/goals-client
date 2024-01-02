@@ -9,6 +9,7 @@ import DurationController from './DurationController';
 interface TaskControllerProps {
   task: TaskWithRecord;
   isOpen: boolean;
+  refresh: () => void;
   toggle: (
     id: string,
     to: boolean,
@@ -21,6 +22,7 @@ export default function TaskController({
   task,
   toggle,
   isOpen = false,
+  refresh,
 }: TaskControllerProps) {
   const [quantity, setQuantity] = React.useState(task.record?.quantity || 0);
   const [duration, setDuration] = React.useState(
@@ -83,6 +85,7 @@ export default function TaskController({
           duration={duration!}
           onChange={handleDurationChange}
           title={task.description}
+          onFinish={refresh}
         />
       )}
 

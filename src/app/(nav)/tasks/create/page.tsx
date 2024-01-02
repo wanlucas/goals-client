@@ -12,7 +12,7 @@ import findBranchs from '../../branchs/actions/find-branchs';
 import findGoals from '../actions/find-goals';
 import findGoalsByBranch from '../../branchs/actions/find-goals-by-branch';
 import TaskForm from './components/TaskForm';
-import createTask from '../actions/createTask';
+import createTask from '../actions/create-task';
 
 export default function CreateTask() {
   const router = useRouter();

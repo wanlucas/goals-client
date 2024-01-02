@@ -20,16 +20,18 @@ interface ActiveTaskBtnProps {
   task: TaskWithRecord;
   currentTime?: string;
   className?: string;
+  refresh: () => void;
   toggle: (id: string, to: boolean) => {
     undo: () => void
   };
 }
-
+// TODO - add context
 export default function ActiveTaskBtn({
   task,
   toggle,
   currentTime,
   className,
+  refresh,
 }: ActiveTaskBtnProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [state, setState] = React.useState<State>('undone');
@@ -87,6 +89,7 @@ export default function ActiveTaskBtn({
         isOpen={isOpen}
         task={task}
         toggle={toggle}
+        refresh={refresh}
         />
     </li>
   );

@@ -10,9 +10,10 @@ import ActiveTaskBtn from './ActiveTaskBtn';
 interface TaskListProps {
   tasks: TaskWithRecord[];
   currentTime: string;
+  refresh: () => void;
 }
 
-export default function TaskList({ tasks, currentTime }: TaskListProps) {
+export default function TaskList({ tasks, currentTime, refresh }: TaskListProps) {
   const [{ done, undone }, setTasks] = useCustomState({
     done: tasks.filter((task) => task.record?.done),
     undone: tasks.filter((task) => !task.record?.done),
@@ -73,6 +74,7 @@ export default function TaskList({ tasks, currentTime }: TaskListProps) {
             task={task}
             toggle={toggle}
             currentTime={currentTime}
+            refresh={refresh}
           />
         ))}
       </ul>

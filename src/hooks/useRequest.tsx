@@ -53,5 +53,6 @@ export default function useRequest<Data>({
     data,
     isLoading,
     setQuery,
+    refetch: request,
   };
 }
