@@ -3,13 +3,14 @@
 import { z } from 'zod';
 import Form from '@/components/Form';
 import Button from '@/components/Button';
-import TextField, { OnChangeProps } from '@/components/TextField';
+import TextField from '@/components/TextField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import IconPicker from '@/components/IconPicker';
 import { useForm } from 'react-hook-form';
 import { CreateGoalPayload } from '@/services/api/goal';
 import React from 'react';
+import { OnChangeProps } from '@/components/Select';
 import GoalsForm, { createGoalSchema } from './GoalsForm';
 
 const createBranchSchema = z.object({
@@ -45,8 +46,6 @@ export default function BranchForm({
     defaultValues,
   });
 
-  const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
-
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
@@ -63,7 +62,7 @@ export default function BranchForm({
           name="name"
           placeholder="Nome da branch"
           maxLength={25}
-          onChange={handleChange}
+          onChange={({ value }: OnChangeProps<any>) => setValue('name', value)}
           value={watch('name')}
         />
       </div>

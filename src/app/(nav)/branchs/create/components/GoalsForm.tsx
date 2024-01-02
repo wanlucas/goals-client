@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField, { OnChangeProps } from '@/components/TextField';
+import TextField from '@/components/TextField';
 import { CreateGoalPayload } from '@/services/api/goal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import CircularBtn from '@/components/CircularBtn';
 import QuantityController from '@/components/QuantityController';
 import Table from '@/components/Table';
+import { OnChangeProps } from '@/components/Select';
 
 export const createGoalSchema = z.object({
   description: z.string().min(3).max(200),
@@ -43,7 +44,7 @@ export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsF
     onChange(goals.filter((_, i) => i !== index));
   };
 
-  const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
+  const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name as any, value);
 
   React.useEffect(() => {
     if (currentGoals) onChange(currentGoals);

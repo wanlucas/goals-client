@@ -23,7 +23,9 @@ export default function TaskController({
   isOpen = false,
 }: TaskControllerProps) {
   const [quantity, setQuantity] = React.useState(task.record?.quantity || 0);
-  const [duration, setDuration] = React.useState(task.record?.duration || task.duration);
+  const [duration, setDuration] = React.useState(
+    (task.duration || 0) - (task.record?.duration || 0),
+  );
 
   const handleDone = async () => {
     const { undo } = toggle(task.id, true);
@@ -50,17 +52,36 @@ export default function TaskController({
     }
   };
 
+  const handleDurationChange = async (remainingMinutes: number) => {
+    if (!task.duration) return;
+
+    const prev = duration;
+
+    setDuration(remainingMinutes);
+
+    const { success } = await register(task.id, { duration: task.duration - remainingMinutes });
+
+    if (!success) {
+      setDuration(prev);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className='px-4 py-1 flex bg-bg-100 gap-3 rounded-b-lg justify-end grow-vertically'>
-      <CircularBtn onClick={handleDone} icon='check' size='sm' bg='tertiary' className='p-[3px]' />
+      <CircularBtn
+        onClick={handleDone}
+        icon='check'
+        size='sm'
+        bg='tertiary'
+        className='p-[3px]'
+      />
 
       {task.duration && (
         <DurationController
           duration={duration!}
-          target={task.duration}
-          onChange={setDuration}
+          onChange={handleDurationChange}
           title={task.description}
         />
       )}

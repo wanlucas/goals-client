@@ -9,7 +9,6 @@ import { z } from 'zod';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { Goal } from '@/services/api/goal';
-import { Branch } from '@/services/api/branch';
 import FrequencyInput from './FrequencyInput';
 
 const createTaskSchema = z.object({
@@ -61,7 +60,7 @@ export default function TaskForm({
 
   return (
     <React.Fragment>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 w-full'>
         {!update && (
           <Select
             label='Meta'

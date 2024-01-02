@@ -1,10 +1,10 @@
 import CircularBtn from '@/components/CircularBtn';
 import { CircularProgress } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface TimerProps {
   title: string;
-  duration: number;
+  target: number;
   onClose: () => void;
   onChange?: (duration: number) => void;
   onFinish?: () => void;
@@ -12,66 +12,71 @@ interface TimerProps {
 
 function Timer({
   onClose,
-  duration,
+  target,
   onChange = () => {},
   onFinish = () => {},
 }: TimerProps) {
   const [int, setInt] = React.useState<NodeJS.Timeout | null>(null);
-  const [minutes, setMinutes] = React.useState(duration);
+  const [tick, setTick] = React.useState(0);
+  const duration = React.useMemo(() => target, []);
   const [seconds, setSeconds] = React.useState(0);
-  const percentage = React.useMemo(
-    () => (minutes * 60 + seconds / (duration * 60)) * 100,
+  const [minutes, setMinutes] = React.useState(duration);
+  const percentage = useMemo(
+    () => Math.round(100 - (((minutes * 60 + seconds) / (duration * 60)) * 100)),
     [seconds],
   );
 
   const clearInt = () => {
     if (int) clearInterval(int);
-  };
-
-  const handleFinish = () => {
-    onFinish();
-    onClose();
-    clearInt();
+    setInt(null);
   };
 
   const handleTick = () => {
-    setSeconds((ps) => {
-      if (ps === 0) {
-        setMinutes((pm) => {
-          if (pm === 0) {
-            handleFinish();
-            return 0;
-          }
-
-          return pm - 1;
-        });
-        return 59;
-      }
-
-      return ps - 1;
-    });
+    setTick((prev) => prev + 1);
   };
 
   const start = () => {
     clearInt();
-    setInt(setInterval(handleTick, 1000));
+    setInt(setInterval(handleTick, 100));
   };
 
   const pause = () => {
     clearInt();
-    setInt(null);
   };
 
   const restart = () => {
     clearInt();
-    setMinutes(duration);
     setSeconds(0);
-    setInt(null);
+    setMinutes(duration);
+    onChange(0);
+    setTick(0);
+  };
+
+  const handleFinish = () => {
+    onFinish();
+    clearInt();
   };
 
   React.useEffect(() => {
-    onChange(minutes);
-  }, [minutes]);
+    if (tick > 0) {
+      let newSeconds = Math.max(seconds - 1, 0);
+
+      if (newSeconds === 0) {
+        if (minutes !== duration) {
+          onChange(minutes);
+        }
+
+        if (minutes > 0) {
+          const newMinutes = minutes - 1;
+          setMinutes(newMinutes);
+
+          newSeconds = 59;
+        } else handleFinish();
+      }
+
+      setSeconds(newSeconds);
+    }
+  }, [tick]);
 
   return (
     <div className='absolute-centralized flex-centralized-column gap-10 bg-color5 md:w-[400px] md:h-[600px] rounded-2xl sm:w-full sm:h-full text-white z-50'>
@@ -148,7 +153,7 @@ export default function DurationController({
           title={title}
           onClose={() => setIsOpen(false)}
           onChange={onChange}
-          duration={duration}
+          target={duration}
           onFinish={onFinish}
         />
       )}

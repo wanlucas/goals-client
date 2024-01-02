@@ -25,8 +25,7 @@ export type CreateTaskPayload = Omit<Task, 'id'>;
 
 const findCurrent = () => requests.get<TaskWithRecord[]>('task/current');
 
-const register = (taskId: string, record: Partial<TaskRecord>) => requests
-  .put(`task/${taskId}/register`, { body: record });
+const register = (taskId: string, record: Partial<TaskRecord>) => requests.put(`task/${taskId}/register`, { body: record });
 
 const complete = (id: string) => requests.put(`task/${id}/done`);
 

@@ -2,10 +2,11 @@
 
 import { z } from 'zod';
 import Form from '@/components/Form';
-import TextField, { OnChangeProps } from '@/components/TextField';
+import TextField from '@/components/TextField';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { OnChangeProps } from '@/components/Select';
 import submitLogin from './actions/submitLogin';
 
 const LoginSchema = z.object({
@@ -32,7 +33,7 @@ export default function Login() {
     resolver: zodResolver(LoginSchema),
   });
 
-  const handleChange = ({ name, value }: OnChangeProps) => setValue(name, value);
+  const handleChange = ({ name, value }: OnChangeProps<any>) => setValue(name, value);
 
   return (
     <div className="flex-centralized h-full">

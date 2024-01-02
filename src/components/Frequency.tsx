@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import 'moment/locale/pt-br';
 
-type RunAt = string[] | null;
+type RunAt = number[] | null;
 
 interface FrequencyProps {
   frequency: string;
