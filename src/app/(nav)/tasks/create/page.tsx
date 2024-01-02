@@ -63,7 +63,7 @@ export default function CreateTask() {
           label="Branch"
           name="branch"
           defaultLabel="Todas"
-          onChange={({ value }) => setBranchId(value)}
+          onChange={({ value }) => setBranchId(value as string)}
           options={getBranchOptions()}
         />
 

@@ -1,5 +1,5 @@
 export default function Statistics() {
   return (
-    <div>Statistics</div>
+    <div className="flex-centralized w-full h-full">Coming soon...</div>
   );
 }

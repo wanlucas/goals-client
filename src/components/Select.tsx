@@ -5,9 +5,11 @@ import text from '@/utils/text';
 import UiIcon from './UiIcon';
 import Divider from './Divider';
 
-export interface OnChangeProps<Value = string> {
+type Value = string | number;
+
+export interface OnChangeProps<V> {
   name: string;
-  value: Value;
+  value: V;
 }
 
 interface SelectProps {
@@ -16,9 +18,9 @@ interface SelectProps {
   defaultLabel?: string;
   options: {
     label: string;
-    value: string;
+    value: Value;
   }[];
-  onChange?: (event: OnChangeProps) => void;
+  onChange?: (event: OnChangeProps<Value>) => void;
 }
 
 export default function Select({
@@ -29,7 +31,7 @@ export default function Select({
   onChange = () => {},
 }: SelectProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState(() => {
+  const [selected, setSelected] = React.useState<Value>(() => {
     if (defaultLabel) {
       const found = options.find((option) => option.label === defaultLabel);
 
@@ -42,7 +44,7 @@ export default function Select({
     return '';
   });
 
-  const handleSelect = (option: { label: string; value: string }) => {
+  const handleSelect = (option: { label: string; value: Value }) => {
     setIsOpen(false);
     setSelected(option.label);
     onChange({ name, value: option.value });

@@ -1,4 +1,5 @@
 import requests from '@/utils/requests';
+import { TaskType } from './type';
 
 export interface Task {
   id: string;
@@ -8,12 +9,16 @@ export interface Task {
   quantity: number | null;
   time: string | null;
   frequency: string;
+  type: TaskType;
+  increment: number | null;
+  value: number | null;
   runAt: number[] | null;
 }
 
 export interface TaskRecord {
   duration: number | null;
   quantity: number | null;
+  value: number | null;
   done: boolean
 }
 
