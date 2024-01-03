@@ -12,14 +12,16 @@ export interface OnChangeProps<V> {
   value: V;
 }
 
+export interface SelectOption {
+  label: string;
+  value: Value;
+}
+
 interface SelectProps {
   name: string;
   label: string;
   defaultLabel?: string;
-  options: {
-    label: string;
-    value: Value;
-  }[];
+  options: SelectOption[];
   onChange?: (event: OnChangeProps<Value>) => void;
 }
 

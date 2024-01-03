@@ -1,10 +1,10 @@
 'use client';
 
-import Select from '@/components/Select';
+import Select, { SelectOption } from '@/components/Select';
 import TextField from '@/components/TextField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
@@ -64,6 +64,14 @@ interface UpdateTaskFormProps {
 
 type TaskFormProps = CreateTaskProps | UpdateTaskFormProps;
 
+const types = {
+  infinite: [{ label: 'Infinita', value: TaskType.infinite }],
+  finite: [
+    { label: 'Crescente', value: TaskType.crescent },
+    { label: 'Acumulativa', value: TaskType.cumulative },
+  ],
+};
+
 export default function TaskForm({
   onSubmit,
   defaultValues,
@@ -72,17 +80,21 @@ export default function TaskForm({
   goal,
 }: TaskFormProps) {
   const router = useRouter();
-  const [selectedGoal, setSelectedGoal] = React.useState<Goal | undefined>(goal);
+  const [selectedGoal, setSelectedGoal] = React.useState<Goal | undefined>(
+    goal,
+  );
   const {
     handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(update ? updateTaskSchema : createTaskSchema),
     defaultValues,
   });
   console.log(errors);
+  console.log(getValues());
   const handleChange = ({
     name,
     value,
@@ -92,18 +104,11 @@ export default function TaskForm({
   }) => setValue(name, value);
 
   const getTaskTypeOptions = () => {
-    const options = [] as { label: string; value: TaskType }[];
+    const options = [] as SelectOption[];
 
     if (!selectedGoal) return options;
-
-    if (selectedGoal.target) {
-      options.push(
-        { label: 'Acumulativa', value: TaskType.cumulative },
-        { label: 'Crescente', value: TaskType.crescent },
-      );
-    } else {
-      options.push({ label: 'Infinita', value: TaskType.infinite });
-    }
+    if (selectedGoal.target) options.push(...types.finite);
+    else options.push(...types.infinite);
 
     return options;
   };
@@ -156,9 +161,12 @@ export default function TaskForm({
         >
           <TextField
             name="value"
-            placeholder="Valor"
+            placeholder={
+              watch('type') === TaskType.crescent ? 'Valor inicial' : 'Valor'
+            }
             onChange={handleChange}
             value={watch('value')}
+            max={selectedGoal?.target}
             type="number"
           />
         </Skeleton>
@@ -197,18 +205,22 @@ export default function TaskForm({
           />
 
           <TextField
-            name="duration"
-            placeholder="Duração"
-            onChange={handleChange}
-            value={watch('duration')}
-            type="number"
-          />
-
-          <TextField
             name="quantity"
             placeholder="Repetições"
             onChange={handleChange}
             value={watch('quantity')}
+            type="number"
+          />
+
+          <TextField
+            name="duration"
+            placeholder={
+              (watch('quantity') || 1) > 1
+                ? 'Duração da repetição'
+                : 'Duração total'
+            }
+            onChange={handleChange}
+            value={watch('duration')}
             type="number"
           />
         </div>

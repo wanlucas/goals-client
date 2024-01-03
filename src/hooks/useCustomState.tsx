@@ -11,8 +11,6 @@ export default function useCustomState<Data>(
 
   const customSetData: CustomSetData = (newData: Data) => {
     const previousData = structuredClone(data);
-
-    console.log('previousData', previousData);
     setData(newData);
 
     return {

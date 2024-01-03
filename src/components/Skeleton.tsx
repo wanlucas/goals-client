@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from './Loading';
 
 interface SkeletonProps {
   isLoading?: boolean;
@@ -22,7 +23,7 @@ export default function Skeleton({
   if (isLoading) {
     return (
       <div className="flex-centralized w-full h-full">
-        <p>Carregando...</p>
+        <Loading />
       </div>
     );
   }
