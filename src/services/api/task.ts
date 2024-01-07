@@ -1,24 +1,25 @@
 import requests from '@/utils/requests';
-import { TaskType } from './type';
+import { TaskFrequency, TaskType } from './type';
 
 export interface Task {
   id: string;
   description: string;
   goalId: string;
-  duration: number | null;
-  quantity: number | null;
-  time: string | null;
-  frequency: string;
+  duration?: number | null;
+  quantity?: number | null;
+  time?: string | null;
+  frequency: TaskFrequency;
   type: TaskType;
-  increment: number | null;
-  value: number | null;
-  runAt: number[] | null;
+  increment?: number | null;
+  value?: number | null;
+  runAt?: number[] | null;
 }
 
+// TODO - consertar optionais forçados abaixo
 export interface TaskRecord {
-  duration: number | null;
-  quantity: number | null;
-  value: number | null;
+  duration?: number | null;
+  quantity?: number | null;
+  value?: number | null;
   done: boolean
 }
 

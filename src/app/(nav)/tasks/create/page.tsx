@@ -58,7 +58,7 @@ export default function CreateTask() {
     <div className="flex flex-col h-full">
       <Header title="Criar nova task" previousPath="/tasks" />
 
-      <div className="flex-between-column w-full h-full bg-bg-200 gap-2 p-4 rounded-t-3xl">
+      <div className="flex-between-column w-full h-full bg-bg-200 gap-2 py-6 px-4 rounded-t-3xl">
         <Select
           label="Branch"
           name="branch"

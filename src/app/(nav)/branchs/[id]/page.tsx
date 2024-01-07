@@ -2,8 +2,6 @@ import React from 'react';
 import Header from '@/components/Header';
 import api from '@/services/api';
 import text from '@/utils/text';
-import xp from '@/utils/xp';
-import CircularProgress from '@/components/CircularProgress';
 import NavigationBtn from '@/components/NavigationBtn';
 import GoalCard from './components/GoalCard';
 
@@ -26,19 +24,11 @@ export default async function UpdateBranch({
 
       <div className="w-full p-4 bg-bg-200 rounded-t-3xl h-full">
         <div className="flex-between border-b-[1px] pb-3 border-white/30">
-          <CircularProgress
-            percentage={xp.percentageToNextLevel(branch.xp)}
-            level={xp.calculateLevel(branch.xp)}
-            icon={branch.icon}
-            size={90}
-          />
 
           <div className="text-right max-w-[70%]">
             <p className="font-bold text-xl mb-1">
               {text.firstUpper(branch.name)}
             </p>
-
-            <p className="text-base text-gray-400">{branch.xp} xp</p>
           </div>
         </div>
 

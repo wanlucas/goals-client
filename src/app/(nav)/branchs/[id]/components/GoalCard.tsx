@@ -3,13 +3,13 @@
 import UiIcon from '@/components/UiIcon';
 import text from '@/utils/text';
 import { LinearProgress } from '@mui/material';
-import { Goal } from '@/services/api/goal';
+import { GoalWithTasks } from '@/services/api/goal';
 import React from 'react';
 import Divider from '@/components/Divider';
 import Frequency from '@/components/Frequency';
 
 interface GoalCardProps {
-  goal: Goal;
+  goal: GoalWithTasks;
 }
 
 // TODO - desativar botão caso não existam tasks

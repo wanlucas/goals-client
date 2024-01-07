@@ -15,15 +15,12 @@ import GoalsForm, { createGoalSchema } from './GoalsForm';
 
 const createBranchSchema = z.object({
   name: z.string().min(3).max(25),
-  icon: z.string(),
+  icon: z.string().optional(),
+  class: z.string().min(3).max(25).optional(),
   goals: z.array(createGoalSchema).optional(),
 });
 
-const updateBranchSchema = z.object({
-  name: z.string().min(3).max(25).optional(),
-  icon: z.string().optional(),
-  goals: z.array(createGoalSchema).optional(),
-});
+const updateBranchSchema = createBranchSchema.partial();
 
 interface BranchFormProps {
   onSubmit: (payload: any) => void;
@@ -36,12 +33,16 @@ export default function BranchForm({
   defaultValues = {},
   update = false,
 }: BranchFormProps) {
-  const [showGoalsForm, setShowGoalsForm] = React.useState(defaultValues.goals?.length! > 0);
+  const [showGoalsForm, setShowGoalsForm] = React.useState(
+    defaultValues.goals?.length! > 0,
+  );
   const router = useRouter();
 
   const navigateToBranchs = () => router.push('/branchs');
 
-  const { handleSubmit, setValue, watch } = useForm({
+  const {
+    handleSubmit, setValue, watch,
+  } = useForm({
     resolver: zodResolver(update ? updateBranchSchema : createBranchSchema),
     defaultValues,
   });
@@ -49,23 +50,28 @@ export default function BranchForm({
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      className="p-4 bg-bg-200 rounded-t-3xl flex flex-col flex-grow w-full"
+      className="px-4 py-6 bg-bg-200 gap-2 rounded-t-3xl flex flex-col h-full w-full"
     >
-      <div className="w-full mb-5">
-        <IconPicker
-          onChange={(icon: string) => setValue('icon', icon)}
-          className="mb-4"
-          value={watch('icon')}
-        />
+      <IconPicker
+        onChange={(icon: string) => setValue('icon', icon)}
+        value={watch('icon')}
+      />
 
-        <TextField
-          name="name"
-          placeholder="Nome da branch"
-          maxLength={25}
-          onChange={({ value }: OnChangeProps<any>) => setValue('name', value)}
-          value={watch('name')}
-        />
-      </div>
+      <TextField
+        name="class"
+        placeholder="Classe"
+        maxLength={25}
+        onChange={({ value }: OnChangeProps<any>) => setValue('class', value)}
+        value={watch('class')}
+      />
+
+      <TextField
+        name="name"
+        placeholder="Nome da branch"
+        maxLength={25}
+        onChange={({ value }: OnChangeProps<any>) => setValue('name', value)}
+        value={watch('name')}
+      />
 
       {showGoalsForm ? (
         <GoalsForm

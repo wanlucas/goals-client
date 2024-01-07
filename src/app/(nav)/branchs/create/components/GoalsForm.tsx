@@ -5,14 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import CircularBtn from '@/components/CircularBtn';
-import QuantityController from '@/components/QuantityController';
 import Table from '@/components/Table';
 import { OnChangeProps } from '@/components/Select';
 
 export const createGoalSchema = z.object({
   description: z.string().min(3).max(200),
   target: z.number().min(1),
-  difficulty: z.number().min(1).max(10),
 });
 
 interface GoalsFormProps {
@@ -24,7 +22,6 @@ interface GoalsFormProps {
 const defaultValues = {
   description: '',
   target: 0,
-  difficulty: 5,
 };
 
 export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsFormProps) {
@@ -70,13 +67,6 @@ export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsF
             min={1}
           />
 
-          <QuantityController
-            max={10}
-            min={1}
-            quantity={watch('difficulty')}
-            onChange={(quantity) => setValue('difficulty', quantity)}
-          />
-
           <CircularBtn
             icon="plus"
             size="md"
@@ -94,10 +84,6 @@ export default function GoalsForm({ onChange, goals = [], currentGoals }: GoalsF
             {
               key: 'target',
               label: 'Alvo',
-            },
-            {
-              key: 'difficulty',
-              label: 'Nível',
             },
           ]}
           data={goals}

@@ -51,7 +51,7 @@ interface CreateTaskProps {
   update?: false;
   defaultValues?: z.infer<typeof updateTaskSchema>;
   goals: Goal[];
-  goal: undefined;
+  goal?: undefined;
 }
 
 interface UpdateTaskFormProps {
@@ -83,18 +83,11 @@ export default function TaskForm({
   const [selectedGoal, setSelectedGoal] = React.useState<Goal | undefined>(
     goal,
   );
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    getValues,
-    formState: { errors },
-  } = useForm({
+  const { handleSubmit, setValue, watch } = useForm({
     resolver: zodResolver(update ? updateTaskSchema : createTaskSchema),
     defaultValues,
   });
-  console.log(errors);
-  console.log(getValues());
+
   const handleChange = ({
     name,
     value,
@@ -142,34 +135,36 @@ export default function TaskForm({
           options={getTaskTypeOptions()}
         />
 
-        <Skeleton
-          open={watch('type') === TaskType.crescent}
-          onClose={() => setValue('increment', null)}
-        >
-          <TextField
-            name="increment"
-            placeholder="Incremento"
-            onChange={handleChange}
-            value={watch('increment')}
-            type="number"
-          />
-        </Skeleton>
+        <div className="flex items-center gap-2">
+          <Skeleton
+            open={watch('type') === TaskType.crescent}
+            onClose={() => setValue('increment', null)}
+          >
+            <TextField
+              name="increment"
+              placeholder="Incremento"
+              onChange={handleChange}
+              value={watch('increment')}
+              type="number"
+            />
+          </Skeleton>
 
-        <Skeleton
-          open={watch('type') !== TaskType.infinite}
-          onClose={() => setValue('value', null)}
-        >
-          <TextField
-            name="value"
-            placeholder={
-              watch('type') === TaskType.crescent ? 'Valor inicial' : 'Valor'
-            }
-            onChange={handleChange}
-            value={watch('value')}
-            max={selectedGoal?.target}
-            type="number"
-          />
-        </Skeleton>
+          <Skeleton
+            open={watch('type') !== TaskType.infinite}
+            onClose={() => setValue('value', null)}
+          >
+            <TextField
+              name="value"
+              placeholder={
+                watch('type') === TaskType.crescent ? 'Valor inicial' : 'Valor'
+              }
+              onChange={handleChange}
+              value={watch('value')}
+              max={selectedGoal?.target}
+              type="number"
+            />
+          </Skeleton>
+        </div>
 
         <Select
           label="Frequência"
@@ -211,8 +206,9 @@ export default function TaskForm({
             value={watch('quantity')}
             type="number"
           />
+        </div>
 
-          <TextField
+        <TextField
             name="duration"
             placeholder={
               (watch('quantity') || 1) > 1
@@ -223,7 +219,6 @@ export default function TaskForm({
             value={watch('duration')}
             type="number"
           />
-        </div>
       </div>
 
       <div className="flex-between gap-6 w-full mt-auto">

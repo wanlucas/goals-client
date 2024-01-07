@@ -35,6 +35,7 @@ export default function TaskList({ tasks, currentTime, refresh }: TaskListProps)
       done: true,
       quantity: target.quantity,
       duration: target.duration,
+      value: target.value,
     };
 
     return setTasks({

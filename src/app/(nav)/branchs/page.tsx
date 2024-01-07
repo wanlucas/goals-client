@@ -17,7 +17,7 @@ export default async function Branchs() {
         <NavigationBtn to='/branchs/create' icon='plus' />
       </div>
 
-      <ul className='flex-col bg-bg-200 p-4 rounded-t-3xl h-full'>
+      <ul className='flex flex-col gap-2 bg-bg-200 py-6 px-4 rounded-t-3xl h-full'>
         {branchs?.map((branch) => (
           <BranchBtn key={branch.id} branch={branch} />
         ))}

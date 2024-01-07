@@ -1,18 +1,21 @@
-const calculateLevel = (xp: number) => Math.floor(0.2 * Math.sqrt(xp));
+export default (points: number) => {
+  let poinsToNextLevel = 10;
+  let level = 1;
 
-const calculateXp = (level: number) => (level / 0.2) ** 2;
+  while (points >= poinsToNextLevel) {
+    poinsToNextLevel += poinsToNextLevel + 1;
+    level += 1;
+  }
 
-const percentageToNextLevel = (xp: number) => {
-  const currentLevel = calculateLevel(xp);
-  const nextLevel = currentLevel + 1;
-  const currentLevelXp = calculateXp(currentLevel);
-  const nextLevelXp = calculateXp(nextLevel);
+  const currentLevelXp = poinsToNextLevel;
+  const nextLevelXp = poinsToNextLevel + poinsToNextLevel + 1;
 
-  return Math.round(((xp - currentLevelXp) / (nextLevelXp - currentLevelXp)) * 100);
-};
-
-export default {
-  calculateLevel,
-  calculateXp,
-  percentageToNextLevel,
+  return {
+    level,
+    nextLevelXp,
+    currentLevelXp,
+    percentage: Math.round(
+      ((points - currentLevelXp) / (nextLevelXp - currentLevelXp)) * 100,
+    ),
+  };
 };

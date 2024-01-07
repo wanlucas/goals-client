@@ -5,3 +5,9 @@ export enum TaskType {
   cumulative,
   crescent,
 }
+
+export enum TaskFrequency {
+  daily = 'daily',
+  weekly = 'weekly',
+  monthly = 'monthly',
+}

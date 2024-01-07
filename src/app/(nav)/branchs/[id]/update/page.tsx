@@ -4,7 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import {
-  BranchWithGoals,
+  BranchWithGoalsAndTasks,
   UpdateBranchPayload,
 } from '@/services/api/branch';
 import useRequest from '@/hooks/useRequest';
@@ -28,7 +28,7 @@ interface UpdateBranchAndGoalsPayload extends UpdateBranchPayload {
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   const router = useRouter();
 
-  const { data: branch, isLoading } = useRequest<BranchWithGoals>({
+  const { data: branch, isLoading } = useRequest<BranchWithGoalsAndTasks>({
     getData: async () => findBranch(id),
     defaultData: {},
   });
@@ -72,15 +72,17 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
   return (
     <div className="flex flex-col h-full">
       <Header title="Editar branch" previousPath="/branchs" />
+
       <BranchForm
         update
         onSubmit={handleSubmit}
         defaultValues={{
           icon: branch.icon,
           name: branch.name,
-          goals: branch.goals,
+          goals: branch.goals.map(({ tasks, ...goal }) => (goal)),
         }}
-      />
+        />
     </div>
   );
+  // TODO - refactor goals
 }

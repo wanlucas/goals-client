@@ -6,7 +6,9 @@ export interface Goal {
   description: string;
   target: number;
   score: number;
-  difficulty: number;
+}
+
+export interface GoalWithTasks extends Goal {
   tasks: Task[];
 }
 
