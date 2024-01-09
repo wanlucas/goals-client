@@ -22,7 +22,7 @@ interface UpdateBranchProps {
 }
 
 interface UpdateBranchAndGoalsPayload extends UpdateBranchPayload {
-  goals?: CreateGoalPayload[];
+  goals: CreateGoalPayload[];
 }
 
 export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
@@ -38,9 +38,11 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
 
     if (!success) throw new Error('Não foi possível atualizar a branch');
 
+    const currentGoals = branch.goals || [];
+
     if (goals && goals.length) {
       const createdGoals = goals.filter(
-        (goas: CreateGoalPayload) => !branch.goals
+        (goas: CreateGoalPayload) => !currentGoals
           .find((goal) => goal.description === goas.description),
       );
 
@@ -53,7 +55,7 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
         if (!createGoalsSuccess) throw new Error('Não foi possível criar as metas');
       }
 
-      const deletedGoalIds = branch.goals.filter((currentGoal) => !goals.find((goal) => (
+      const deletedGoalIds = currentGoals.filter((currentGoal) => !goals.find((goal) => (
         goal.description === currentGoal.description
       ))).map((goal) => goal.id);
 
@@ -67,7 +69,7 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
     router.push('/branchs');
   };
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return null;
 
   return (
     <div className="flex flex-col h-full">
@@ -79,7 +81,7 @@ export default function UpdateBranch({ params: { id } }: UpdateBranchProps) {
         defaultValues={{
           icon: branch.icon,
           name: branch.name,
-          goals: branch.goals.map(({ tasks, ...goal }) => (goal)),
+          goals: branch.goals?.map(({ tasks, ...goal }) => (goal)) || [],
         }}
         />
     </div>

@@ -11,7 +11,7 @@ export interface Branch {
 }
 
 export interface BranchWithGoalsAndTasks extends Branch {
-  goals: GoalWithTasks[];
+  goals?: GoalWithTasks[];
 }
 
 export interface BranchWithSummary extends Branch {

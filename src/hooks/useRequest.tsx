@@ -24,7 +24,7 @@ export default function useRequest<Data>({
   listeners = [],
   defaultData = [],
 }: RequestProps<Data>) {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [data, setData] = React.useState<Data>(defaultData);
   const [queries, setQueries] = React.useState<Query>({});
 

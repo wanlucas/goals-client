@@ -35,7 +35,7 @@ export default async function UpdateBranch({
         <div className="text-center">
           <p className="my-3 font-bold"> Metas </p>
           <ul className="overflow-y-auto border-t-[1px] border-white/30">
-            {branch.goals.map((goal) => (
+            {branch.goals?.map((goal) => (
               <GoalCard key={goal.id} goal={goal} />
             ))}
           </ul>
